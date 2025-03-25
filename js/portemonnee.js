@@ -1,3 +1,6 @@
+// Laad de gegevens uit localStorage en toon ze
+let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
+
 // Functie om het totaalbedrag te berekenen
 function berekenSaldo() {
     return portemonnee.reduce((totaal, item) => totaal + item.waarde * item.aantal, 0);
@@ -6,7 +9,7 @@ function berekenSaldo() {
 // Functie om de lijst van biljetten/munten bij te werken
 function toonPortemonnee() {
     const lijstElement = document.getElementById('portemonneeLijst');
-    lijstElement.innerHTML = ''; // Leeg de lijst
+    lijstElement.innerText = '';
     portemonnee.forEach(item => {
         const lijstItem = document.createElement('li');
         lijstItem.textContent = `${item.aantal}x €${item.waarde.toFixed(2)}`;
@@ -15,22 +18,14 @@ function toonPortemonnee() {
     document.getElementById('totaalSaldo').textContent = berekenSaldo().toFixed(2);
 }
 
-// Laad de gegevens uit localStorage en toon ze
-let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
-
-// Sorteer de portemonnee van groot naar klein op basis van waarde
-portemonnee.sort((a, b) => b.waarde - a.waarde);
-toonPortemonnee();
-
-// Functie om de gegevens op te slaan in localStorage
+// Functie om de portemonnee op te slaan in localStorage
 function opslaanInLocalStorage() {
     localStorage.setItem('portemonnee', JSON.stringify(portemonnee));
 }
 
-// Functie om de gegevens op te slaan wanneer de "Opslaan" knop wordt ingedrukt
-document.getElementById('voegToeBtn').addEventListener('click', function () {
-    // Verkrijg alle ingevoerde waarden
-    const invoer = [
+// Functie om de waarden van de invoervelden op te halen en toe te voegen aan de portemonnee
+function verzamelInvoer() {
+    return [
         {waarde: 50, aantal: parseInt(document.getElementById('biljet50').value)},
         {waarde: 20, aantal: parseInt(document.getElementById('biljet20').value)},
         {waarde: 10, aantal: parseInt(document.getElementById('biljet10').value)},
@@ -42,8 +37,12 @@ document.getElementById('voegToeBtn').addEventListener('click', function () {
         {waarde: 0.10, aantal: parseInt(document.getElementById('munt10').value)},
         {waarde: 0.05, aantal: parseInt(document.getElementById('munt5').value)}
     ];
+}
 
-    // Voeg de waarden toe aan de portemonnee array
+// Functie om de invoer toe te voegen aan de portemonnee
+function voegToeAanPortemonnee() {
+    const invoer = verzamelInvoer();
+
     invoer.forEach(item => {
         if (item.aantal > 0) {
             let bestaand = portemonnee.find(el => el.waarde === item.waarde);
@@ -66,18 +65,20 @@ document.getElementById('voegToeBtn').addEventListener('click', function () {
 
     // Reset de invoervelden
     document.getElementById('portemonneeForm').reset();
-});
+}
 
 // Functie om de portemonnee en invoervelden te resetten
-document.getElementById('resetBtn').addEventListener('click', function () {
-    // Reset de array en de weergave
+function resetPortemonnee() {
     portemonnee = [];
     toonPortemonnee();
-    // Reset de invoervelden
     document.getElementById('portemonneeForm').reset();
-    // Zet het totaal op 0
     document.getElementById('totaalSaldo').textContent = '0.00';
-
-    // Verwijder de gegevens uit localStorage
     localStorage.removeItem('portemonnee');
-});
+}
+
+// Event listeners
+document.getElementById('voegToeBtn').addEventListener('click', voegToeAanPortemonnee);
+document.getElementById('resetBtn').addEventListener('click', resetPortemonnee);
+
+// Toon de portemonnee bij het laden van de pagina
+toonPortemonnee();
