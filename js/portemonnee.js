@@ -95,7 +95,6 @@ function setupInvoerEventListeners() {
         const input = item.querySelector('input');
         const plusBtn = item.querySelector('.plus');
         const minusBtn = item.querySelector('.minus');
-
         if (plusBtn) {
             plusBtn.addEventListener('click', () => {
                 input.value = parseInt(input.value) + 1;

@@ -1,0 +1,52 @@
+:root {
+    --error: red;
+    --nav-button: #7070ff;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-style {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+}
+
+.button {
+    height: 7vh;
+    width: 10vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: var(--nav-button);
+    border-radius: 5px;
+    color: white;
+    border: solid 2px black;
+}
+
+.button:hover {
+    scale: 110%;
+    transition: ease-in scale 300ms;
+}
+
+.nav-text-style {
+    flex-direction: column;
+    height: 7vh;
+    width: 10vw;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border-radius: 5px;
+    border: solid 2px white;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+}
