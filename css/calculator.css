@@ -1,12 +1,38 @@
-* {
+:root {
+    --error: red;
+    --nav-button: #7070ff;
+}
+
+body {
     box-sizing: border-box;
 }
 
+p {
+    margin: 0;
+}
+
 .error {
-    color: red;
+    color: var(--error);
 }
 
 form {
     display: flex;
     flex-direction: column;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-style {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+}
+
+.nav-content {
+    height: 5vh;
+    background-color: var(--nav-button);
+    min-width: 20%;
 }
