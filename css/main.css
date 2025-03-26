@@ -33,7 +33,7 @@ nav {
     margin-top: 1vh;
 }
 
-.nav-content {
+.button {
     height: 7vh;
     width: 10vw;
     text-align: center;
@@ -43,10 +43,15 @@ nav {
     background-color: var(--nav-button);
     border-radius: 5px;
     border: solid 2px black;
+}
 
+.button:hover {
+    scale: 110%;
+    transition: ease-in scale 300ms;
 }
 
 .nav-text-style {
+    flex-direction: column;
     height: 7vh;
     width: 10vw;
     text-align: center;

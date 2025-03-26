@@ -4,6 +4,7 @@ let money
 let error
 let section
 let item
+let totalSaldo = JSON.parse(localStorage.getItem('saldo')) || "0,00";
 
 function init() {
     section = document.querySelector("#formSection")
@@ -11,7 +12,12 @@ function init() {
     money = document.querySelector("#to-pay")
     item = document.querySelector("#to-buy")
     error = section.querySelector("#error")
+    saldo = document.querySelector("#totalSaldo")
+
+    console.log(saldo)
+    saldo.textContent = "€" + totalSaldo
     form.addEventListener("submit", formHandler)
+    console.log(totalSaldo)
 }
 
 function formHandler(e) {
