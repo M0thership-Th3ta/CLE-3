@@ -42,6 +42,7 @@ nav {
     display: flex;
     background-color: var(--nav-button);
     border-radius: 5px;
+    color: white;
     border: solid 2px black;
 }
 
