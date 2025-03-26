@@ -1,122 +1,97 @@
-// Laad de gegevens uit localStorage en toon ze
+// Laad en bewaar portemonnee gegevens
 let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
 
-// Functie om het totaalbedrag te berekenen
+// Bereken totaal saldo
 function berekenSaldo() {
     return portemonnee.reduce((totaal, item) => totaal + item.waarde * item.aantal, 0);
 }
 
-// Functie om de lijst van biljetten/munten bij te werken
+// Toon portemonnee in UI
 function toonPortemonnee() {
     const lijstElement = document.getElementById('portemonneeLijst');
-    lijstElement.innerText = '';
+    lijstElement.innerHTML = portemonnee.map(item => `<li>${item.aantal}x €${item.waarde.toFixed(2)}</li>`).join('');
 
-    portemonnee.forEach(item => {
-        const lijstItem = document.createElement('li');
-        lijstItem.textContent = `${item.aantal}x €${item.waarde.toFixed(2)}`;
-        lijstElement.appendChild(lijstItem);
-    });
-
-    // Update het saldo in het DOM
-    document.getElementById('totaalSaldo').textContent = berekenSaldo().toFixed(2);
-    localStorage.setItem('saldo', portemonnee.reduce((totaal, item) => totaal + item.waarde * item.aantal, 0).toFixed(2))
-
-    // Update de inputvelden met de juiste aantallen
-    portemonnee.forEach(item => {
-        const input = document.querySelector(`input[data-waarde="${item.waarde}"]`);
-        if (input) {
-            input.value = item.aantal;
-        }
-    });
+    const saldo = berekenSaldo().toFixed(2);
+    document.getElementById('totaalSaldo').textContent = saldo;
+    localStorage.setItem('saldo', saldo);
 }
 
-// Functie om de portemonnee op te slaan in localStorage
+// Sla portemonnee op
 function opslaanInLocalStorage() {
     localStorage.setItem('portemonnee', JSON.stringify(portemonnee));
 }
 
-// Functie om de waarden van de invoervelden op te halen en toe te voegen aan de portemonnee
+// Verzamel invoerwaarden
 function verzamelInvoer() {
     return [
-        {waarde: 50, aantal: parseInt(document.getElementById('biljet50').value) || 0},
-        {waarde: 20, aantal: parseInt(document.getElementById('biljet20').value) || 0},
-        {waarde: 10, aantal: parseInt(document.getElementById('biljet10').value) || 0},
-        {waarde: 5, aantal: parseInt(document.getElementById('biljet5').value) || 0},
-        {waarde: 2, aantal: parseInt(document.getElementById('munt2').value) || 0},
-        {waarde: 1, aantal: parseInt(document.getElementById('munt1').value) || 0},
-        {waarde: 0.50, aantal: parseInt(document.getElementById('munt50').value) || 0},
-        {waarde: 0.20, aantal: parseInt(document.getElementById('munt20').value) || 0},
-        {waarde: 0.10, aantal: parseInt(document.getElementById('munt10').value) || 0},
-        {waarde: 0.05, aantal: parseInt(document.getElementById('munt5').value) || 0}
-    ].filter(item => !isNaN(item.aantal)); // Zorg dat geen NaN waarden worden opgeslagen
+        {waarde: 50, id: 'biljet50'},
+        {waarde: 20, id: 'biljet20'},
+        {waarde: 10, id: 'biljet10'},
+        {waarde: 5, id: 'biljet5'},
+        {waarde: 2, id: 'munt2'},
+        {waarde: 1, id: 'munt1'},
+        {waarde: 0.50, id: 'munt50'},
+        {waarde: 0.20, id: 'munt20'},
+        {waarde: 0.10, id: 'munt10'},
+        {waarde: 0.05, id: 'munt5'}
+    ].map(item => ({
+        waarde: item.waarde,
+        aantal: parseInt(document.getElementById(item.id).value) || 0
+    })).filter(item => !isNaN(item.aantal));
 }
 
-// Functie om de invoer toe te voegen aan de portemonnee
+// Update portemonnee
 function voegToeAanPortemonnee() {
     const invoer = verzamelInvoer();
 
-    // Vervang bestaande invoer in plaats van de array leeg te maken
     invoer.forEach(item => {
-        let bestaand = portemonnee.find(el => el.waarde === item.waarde);
-        if (bestaand) {
-            bestaand.aantal = item.aantal; // Vervang het aantal in plaats van optellen
-        } else if (item.aantal > 0) {
-            portemonnee.push(item);
-        }
+        const bestaand = portemonnee.find(el => el.waarde === item.waarde);
+        bestaand ? bestaand.aantal = item.aantal : item.aantal > 0 && portemonnee.push(item);
     });
 
-    // Sorteer de portemonnee op waarde
-    portemonnee.sort((a, b) => b.waarde - a.waarde);
+    portemonnee = portemonnee.filter(item => item.aantal > 0)
+        .sort((a, b) => b.waarde - a.waarde);
 
-    // Verwijder items met aantal 0
-    portemonnee = portemonnee.filter(item => item.aantal > 0);
-
-    // Update de weergave
     toonPortemonnee();
-
-    // Sla op in localStorage
     opslaanInLocalStorage();
 }
 
-// Functie om de portemonnee en invoervelden te resetten
-function resetPortemonnee() {
-    portemonnee = [];
-    toonPortemonnee();
-    document.getElementById('portemonneeForm').reset();
-    document.getElementById('totaalSaldo').textContent = '0.00';
-    localStorage.removeItem('portemonnee');
-    const input = item.querySelector('input');
-    input.value = 0;
-}
-
-// Functie om de event listeners voor de invoervelden in te stellen
-function setupInvoerEventListeners() {
-    document.querySelectorAll('.form-item').forEach(item => {
-        const input = item.querySelector('input');
-        const plusBtn = item.querySelector('.plus');
-        const minusBtn = item.querySelector('.minus');
-        if (plusBtn) {
-            plusBtn.addEventListener('click', () => {
-                input.value = parseInt(input.value) + 1;
-                voegToeAanPortemonnee();
-            });
-        }
-
-        if (minusBtn) {
-            minusBtn.addEventListener('click', () => {
-                if (parseInt(input.value) > 0) {
-                    input.value = parseInt(input.value) - 1;
-                    voegToeAanPortemonnee();
-                }
-            });
-        }
+// Vul input velden
+function vulInputVelden() {
+    portemonnee.forEach(item => {
+        const id = ['50', '20', '10', '5', '2', '1', '50', '20', '10', '5'].includes(item.waarde.toString())
+            ? `biljet${item.waarde}`.replace('biljet0.', 'munt')
+            : `munt${item.waarde}`;
+        document.getElementById(id) && (document.getElementById(id).value = item.aantal);
     });
 }
 
+// Reset alles
+function resetPortemonnee() {
+    portemonnee = [];
+    document.getElementById('portemonneeForm').reset();
+    localStorage.removeItem('portemonnee');
+    localStorage.removeItem('saldo');
+    toonPortemonnee();
+}
+
+// Event listeners
+document.querySelectorAll('.form-item').forEach(item => {
+    const input = item.querySelector('input');
+    item.querySelector('.plus')?.addEventListener('click', () => {
+        input.value = parseInt(input.value) + 1;
+        voegToeAanPortemonnee();
+    });
+    item.querySelector('.minus')?.addEventListener('click', () => {
+        input.value > 0 && (input.value = parseInt(input.value) - 1);
+        voegToeAanPortemonnee();
+    });
+});
+
 document.getElementById('resetBtn').addEventListener('click', resetPortemonnee);
 
-// Instellen van event listeners voor invoervelden
-setupInvoerEventListeners();
-
-// Toon de portemonnee bij het laden van de pagina
-toonPortemonnee();
+// Initialisatie
+document.addEventListener('DOMContentLoaded', () => {
+    vulInputVelden();
+    toonPortemonnee();
+});
