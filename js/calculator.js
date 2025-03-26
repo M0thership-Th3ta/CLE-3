@@ -17,10 +17,16 @@ function init() {
 function formHandler(e) {
     e.preventDefault()
     error.innerText = ""
+
+
     let cash = parseFloat(money.value.replace(",", "."))
-    console.log(cash)
+    let roundedcash = Number(cash.toFixed(2))
+
+    console.log(roundedcash)
+
+
     if (!isNaN(cash) && cash !== "") {
-        console.log("YES!")
+
         console.log(item.value)
     } else {
         console.log("error")
