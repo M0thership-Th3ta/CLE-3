@@ -20,17 +20,13 @@ function formHandler(e) {
 
 
     let cash = parseFloat(money.value.replace(",", "."))
-    let roundedcash = Number(cash.toFixed(2))
 
-    console.log(roundedcash)
-
-
-    if (!isNaN(cash) && cash !== "") {
-
+    if (!isNaN(cash) && cash !== "" && cash === Number(cash.toFixed(2))) {
+        console.log(cash.toFixed(2))
         console.log(item.value)
     } else {
         console.log("error")
-        error.innerText = "U moet een prijs invoeren"
+        error.innerText = "U moet een geldige prijs invoeren"
     }
 
 }
