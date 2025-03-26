@@ -33,7 +33,7 @@ function formHandler(e) {
         } else {
             localStorage.setItem("Price", money.value)
             localStorage.setItem("Product", item.value)
-            window.location.href = "./portemonnee.html";
+            window.location.href = "./calculator.html";
             return;
         }
 
