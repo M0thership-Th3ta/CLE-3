@@ -4,7 +4,8 @@ let money
 let error
 let section
 let item
-let totalSaldo = JSON.parse(localStorage.getItem('saldo')) || "0,00";
+let totalSaldo = JSON.parse(localStorage.getItem('saldo')) || 0.00;
+
 
 function init() {
     section = document.querySelector("#formSection")
@@ -26,13 +27,19 @@ function formHandler(e) {
 
 
     let cash = parseFloat(money.value.replace(",", "."))
-
     if (!isNaN(cash) && cash !== "" && cash === Number(cash.toFixed(2))) {
-        console.log(cash.toFixed(2))
-        console.log(item.value)
+        if (cash > totalSaldo) {
+            alert(`u heeft nog €${cash - totalSaldo} nodig`)
+        } else {
+            localStorage.setItem("Price", money.value)
+            localStorage.setItem("Product", item.value)
+
+        }
+
     } else {
         console.log("error")
         error.innerText = "U moet een geldige prijs invoeren"
+        money.value = ""
     }
 
 }
