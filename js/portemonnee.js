@@ -9,11 +9,16 @@ function berekenSaldo() {
 // Toon portemonnee in UI
 function toonPortemonnee() {
     const lijstElement = document.getElementById('portemonneeLijst');
-    lijstElement.innerHTML = portemonnee.map(item => `<li>${item.aantal}x €${item.waarde.toFixed(2)}</li>`).join('');
+    if (lijstElement) {
+        lijstElement.innerHTML = portemonnee.map(item => `<li>${item.aantal}x €${item.waarde.toFixed(2)}</li>`).join('');
+    }
 
     const saldo = berekenSaldo().toFixed(2);
-    document.getElementById('totaalSaldo').textContent = saldo;
-    localStorage.setItem('saldo', saldo);
+    const saldoElement = document.getElementById('totaalSaldo');
+    if (saldoElement) {
+        saldoElement.textContent = saldo;
+        localStorage.setItem('saldo', saldo);
+    }
 }
 
 // Sla portemonnee op
@@ -30,14 +35,17 @@ function verzamelInvoer() {
         {waarde: 5, id: 'biljet5'},
         {waarde: 2, id: 'munt2'},
         {waarde: 1, id: 'munt1'},
-        {waarde: 0.50, id: 'munt0.50'},
-        {waarde: 0.20, id: 'munt0.20'},
-        {waarde: 0.10, id: 'munt0.10'},
-        {waarde: 0.05, id: 'munt0.05'}
-    ].map(item => ({
-        waarde: item.waarde,
-        aantal: parseInt(document.getElementById(item.id).value) || 0
-    })).filter(item => !isNaN(item.aantal));
+        {waarde: 0.50, id: 'munt0.50'},  // Aangepast van munt50 naar munt0.50
+        {waarde: 0.20, id: 'munt0.20'},  // Aangepast van munt20 naar munt0.20
+        {waarde: 0.10, id: 'munt0.10'},  // Aangepast van munt10 naar munt0.10
+        {waarde: 0.05, id: 'munt5'}
+    ].map(item => {
+        const inputElement = document.getElementById(item.id);
+        return {
+            waarde: item.waarde,
+            aantal: inputElement ? parseInt(inputElement.value) || 0 : 0
+        };
+    }).filter(item => !isNaN(item.aantal));
 }
 
 // Update portemonnee
@@ -46,7 +54,11 @@ function voegToeAanPortemonnee() {
 
     invoer.forEach(item => {
         const bestaand = portemonnee.find(el => el.waarde === item.waarde);
-        bestaand ? bestaand.aantal = item.aantal : item.aantal > 0 && portemonnee.push(item);
+        if (bestaand) {
+            bestaand.aantal = item.aantal;
+        } else if (item.aantal > 0) {
+            portemonnee.push(item);
+        }
     });
 
     portemonnee = portemonnee.filter(item => item.aantal > 0)
@@ -59,17 +71,25 @@ function voegToeAanPortemonnee() {
 // Vul input velden
 function vulInputVelden() {
     portemonnee.forEach(item => {
-        const id = ['50', '20', '10', '5', '2', '1', '0.50', '0.20', '0.10', '0.05'].includes(item.waarde.toString())
-            ? `biljet${item.waarde}`.replace('biljet0.', 'munt')
-            : `munt${item.waarde}`;
-        document.getElementById(id) && (document.getElementById(id).value = item.aantal);
+        let id;
+        if (item.waarde >= 1) {
+            id = `biljet${item.waarde}`;
+        } else {
+            // Aangepast om overeen te komen met je HTML ID's
+            id = `munt${item.waarde.toFixed(2).replace('0.', '0.')}`;
+        }
+        const element = document.getElementById(id);
+        if (element) {
+            element.value = item.aantal;
+        }
     });
 }
 
 // Reset alles
 function resetPortemonnee() {
     portemonnee = [];
-    document.getElementById('portemonneeForm').reset();
+    const form = document.getElementById('portemonneeForm');
+    if (form) form.reset();
     localStorage.removeItem('portemonnee');
     localStorage.removeItem('saldo');
     toonPortemonnee();
@@ -78,17 +98,29 @@ function resetPortemonnee() {
 // Event listeners
 document.querySelectorAll('.form-item').forEach(item => {
     const input = item.querySelector('input');
-    item.querySelector('.plus')?.addEventListener('click', () => {
-        input.value = parseInt(input.value) + 1;
-        voegToeAanPortemonnee();
-    });
-    item.querySelector('.minus')?.addEventListener('click', () => {
-        input.value > 0 && (input.value = parseInt(input.value) - 1);
-        voegToeAanPortemonnee();
-    });
+    const plus = item.querySelector('.plus');
+    const minus = item.querySelector('.minus');
+
+    if (plus && input) {
+        plus.addEventListener('click', () => {
+            input.value = (parseInt(input.value) || 0) + 1;
+            voegToeAanPortemonnee();
+        });
+    }
+
+    if (minus && input) {
+        minus.addEventListener('click', () => {
+            const waarde = parseInt(input.value) || 0;
+            if (waarde > 0) input.value = waarde - 1;
+            voegToeAanPortemonnee();
+        });
+    }
 });
 
-document.getElementById('resetBtn').addEventListener('click', resetPortemonnee);
+const resetBtn = document.getElementById('resetBtn');
+if (resetBtn) {
+    resetBtn.addEventListener('click', resetPortemonnee);
+}
 
 // Initialisatie
 document.addEventListener('DOMContentLoaded', () => {
