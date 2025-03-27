@@ -10,6 +10,35 @@
     <script defer type="text/javascript" src=js/boodschappenlijstje.js></script>
 </head>
 <body>
-
+    <nav class="nav-style">
+        <section class="nav-content">
+            <div class="image-container">
+                <img src="">
+            </div>
+            <a href="main.html">Terug</a>
+        </section>
+    </nav>
+    <header>
+        <section class="header-start">
+            <h1>Boodschappenlijstje</h1>
+            <p>Ik wil iets toevoegen.</p>
+        </section>
+        <form id="boodschappen-form">
+            <div class="form-item">
+                <label for="boodschap">Boodschap:</label>
+                <input type="text" id="boodschap" name="boodschap">
+                <button type="submit">Toevoegen</button>
+            </div>
+        </form>
+    </header>
+    <main>
+        <section class="boodschappenlijst">
+            <h2>Boodschappenlijst</h2>
+            <ul id="boodschappenlijst">
+                <!-- List items will be added here -->
+            </ul>
+        </section>
+        <p id="clear-button">Lijst leegmaken</p>
+    </main>
 </body>
 </html>
