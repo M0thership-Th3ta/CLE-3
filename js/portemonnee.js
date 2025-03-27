@@ -30,10 +30,10 @@ function verzamelInvoer() {
         {waarde: 5, id: 'biljet5'},
         {waarde: 2, id: 'munt2'},
         {waarde: 1, id: 'munt1'},
-        {waarde: 0.50, id: 'munt50'},
-        {waarde: 0.20, id: 'munt20'},
-        {waarde: 0.10, id: 'munt10'},
-        {waarde: 0.05, id: 'munt5'}
+        {waarde: 0.50, id: 'munt0.50'},
+        {waarde: 0.20, id: 'munt0.20'},
+        {waarde: 0.10, id: 'munt0.10'},
+        {waarde: 0.05, id: 'munt0.05'}
     ].map(item => ({
         waarde: item.waarde,
         aantal: parseInt(document.getElementById(item.id).value) || 0
@@ -59,7 +59,7 @@ function voegToeAanPortemonnee() {
 // Vul input velden
 function vulInputVelden() {
     portemonnee.forEach(item => {
-        const id = ['50', '20', '10', '5', '2', '1', '50', '20', '10', '5'].includes(item.waarde.toString())
+        const id = ['50', '20', '10', '5', '2', '1', '0.50', '0.20', '0.10', '0.05'].includes(item.waarde.toString())
             ? `biljet${item.waarde}`.replace('biljet0.', 'munt')
             : `munt${item.waarde}`;
         document.getElementById(id) && (document.getElementById(id).value = item.aantal);
