@@ -59,7 +59,7 @@ function voegToeAanPortemonnee() {
 // Vul input velden
 function vulInputVelden() {
     portemonnee.forEach(item => {
-        const id = ['50', '20', '10', '5', '2', '1', '50', '20', '10', '5'].includes(item.waarde.toString())
+        const id = ['50', '20', '10', '5', '2', '1', '0.50', '0.20', '0.10', '0.05'].includes(item.waarde.toString())
             ? `biljet${item.waarde}`.replace('biljet0.', 'munt')
             : `munt${item.waarde}`;
         document.getElementById(id) && (document.getElementById(id).value = item.aantal);
