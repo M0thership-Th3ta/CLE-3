@@ -38,7 +38,7 @@ function verzamelInvoer() {
         {waarde: 0.50, id: 'munt0.50'},  // Aangepast van munt50 naar munt0.50
         {waarde: 0.20, id: 'munt0.20'},  // Aangepast van munt20 naar munt0.20
         {waarde: 0.10, id: 'munt0.10'},  // Aangepast van munt10 naar munt0.10
-        {waarde: 0.05, id: 'munt5'}
+        {waarde: 0.05, id: 'munt0.05'}
     ].map(item => {
         const inputElement = document.getElementById(item.id);
         return {
