@@ -1,21 +1,70 @@
 window.addEventListener("load", init)
-let form;
-let field
+let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || []
+let totalSaldo = localStorage.getItem("saldo")
+let price = localStorage.getItem("price")
+let myMoney = [];
+
+let section;
 
 function init() {
-    form = document.querySelector("#calculatorForm")
-    field = document.querySelector("#to-pay")
-    form.addEventListener("submit", formHandler)
+
+    section = document.querySelector("#my-money")
+    getMoney()
+    console.log(myMoney)
+
 }
 
-function formHandler(e) {
-    e.preventDefault()
-    let cash = parseFloat(field.value.replace(",", "."))
-    console.log(cash)
-    if (!isNaN(cash)) {
-        console.log("YES!")
-    } else {
+function moneyCount() {
+    console.log(myMoney)
 
+    for (let i = 0; i < myMoney.length; i++) {
+        if (myMoney[i] <= price) {
+            let div = document.createElement("div")
+            section.append(div)
+            let p = document.createElement("p")
+            price = price - myMoney[i]
+            p.innerText = myMoney[i]
+            div.append(p)
+            //   myMoney.splice(i, 1)
+            console.log(myMoney)
+
+            if (price <= 0) {
+                console.log(price)
+                return;
+
+            }
+        }
     }
 
+    for (let i = myMoney.length - 1; i >= 0; i--) {
+        console.log("test")
+
+        if (myMoney[i] > price) {
+            let div = document.createElement("div")
+            section.append(div)
+            let p = document.createElement("p")
+            p.innerText = myMoney[i]
+            div.append(p)
+            price = price - myMoney[i]
+            //   myMoney.splice(i, 1)
+
+
+            console.log(price)
+
+            if (price <= 0) {
+                console.log(price)
+                return;
+
+            }
+        }
+    }
+}
+
+function getMoney() {
+    for (let contains of portemonnee) {
+        for (let i = 0; i < contains.aantal; i++) {
+            myMoney.push(contains.waarde)
+        }
+    }
+    moneyCount()
 }

@@ -4,80 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portemonnee Invoer</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-
-        .form-item {
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="css/portemonnee.css">
     <script src="js/portemonnee.js" defer></script>
 </head>
 <body>
-
-<h1>Voer je portemonnee in</h1>
+<nav>
+    <div class="nav-style">
+        <a href="main.html">
+            <div class="button">
+                <p>Terug</p>
+                <img src="">
+            </div>
+        </a>
+    </div>
+</nav>
+<h1>Voer uw portemonnee in</h1>
 <form id="portemonneeForm">
     <div class="form-item">
         <img src="img/50.png" height="100" width="170">
-        <label for="biljet50">Aantal €50 biljetten:</label>
-        <input type="number" id="biljet50" min="0" value="0">
+        <label for="biljet50">Aantal 50 briefjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="biljet50" data-waarde="50" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/20.png" height="100" width="170">
-        <label for="biljet20">Aantal €20 biljetten:</label>
-        <input type="number" id="biljet20" min="0" value="0">
+        <label for="biljet20">Aantal 20 briefjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="biljet20" data-waarde="20" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/10.png" height="100" width="170">
-        <label for="biljet10">Aantal €10 biljetten:</label>
-        <input type="number" id="biljet10" min="0" value="0">
+        <label for="biljet10">Aantal 10 briefjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="biljet10" data-waarde="10" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/5.png" height="100" width="170">
-        <label for="biljet5">Aantal €5 biljetten:</label>
-        <input type="number" id="biljet5" min="0" value="0">
+        <label for="biljet5">Aantal 5 briefjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="biljet5" data-waarde="5" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/2.png" height="50" width="50">
-        <label for="munt2">Aantal €2 munten:</label>
-        <input type="number" id="munt2" min="0" value="0">
+        <label for="munt2">Aantal 2 euro's:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="munt2" data-waarde="2" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/1.png" height="50" width="50">
-        <label for="munt1">Aantal €1 munten:</label>
-        <input type="number" id="munt1" min="0" value="0">
+        <label for="munt1">Aantal 1 euro's:</label>
+        <div class="input-group">
+            <button type="button" class="minus">-</button>
+            <input type="number" id="munt1" data-waarde="1" value="0" hidden>
+            <p id="munt1-indicator"></p>
+            <button type="button" class="plus">+</button>
+        </div>
     </div>
     <div class="form-item">
         <img src="img/0.50.png" height="50" width="50">
-        <label for="munt50">Aantal €0,50 munten:</label>
-        <input type="number" id="munt50" min="0" value="0">
+        <label for="munt50">Aantal 50 centjes:</label>
+        <button type="button" class="minus">-</button>
+
+        <input type="number" id="munt50" data-waarde="0.50" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/0.20.png" height="50" width="50">
-        <label for="munt20">Aantal €0,20 munten:</label>
-        <input type="number" id="munt20" min="0" value="0">
+        <label for="munt20">Aantal 20 centjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="munt20" data-waarde="0.20" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/0.10.png" height="50" width="50">
-        <label for="munt10">Aantal €0,10 munten:</label>
-        <input type="number" id="munt10" min="0" value="0">
+        <label for="munt20">Aantal 10 centjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="munt10" data-waarde="0.10" value="0">
+        <button type="button" class="plus">+</button>
     </div>
     <div class="form-item">
         <img src="img/0.05.png" height="50" width="50">
-        <label for="munt5">Aantal €0,05 munten:</label>
-        <input type="number" id="munt5" min="0" value="0">
+        <label for="munt20">Aantal 5 centjes:</label>
+        <button type="button" class="minus">-</button>
+        <input type="number" id="munt5" data-waarde="0.05" value="0">
+        <button type="button" class="plus">+</button>
     </div>
-    <button type="button" id="voegToeBtn">Opslaan</button>
-    <button type="button" id="resetBtn">Reset</button>
+    <button type="button" id="resetBtn">Leeg maken</button>
 </form>
 
-<h2>Ingevoerde Portemonnee</h2>
+<h2>Uw Portemonnee</h2>
 <ul id="portemonneeLijst"></ul>
 
-<h3>Totaal Saldo: €<span id="totaalSaldo">0.00</span></h3>
-
+<h3>Aantal: €<span id="totaalSaldo">0.00</span></h3>
 </body>
 </html>
