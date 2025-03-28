@@ -31,7 +31,7 @@ function formHandler(e) {
         if (cash > totalSaldo) {
             alert(`u heeft nog €${cash - totalSaldo} nodig`)
         } else {
-            localStorage.setItem("price", money.value)
+            localStorage.setItem("price", cash)
             localStorage.setItem("product", item.value)
             window.location.href = "./calculator.html";
             return;
