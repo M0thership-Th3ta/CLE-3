@@ -34,7 +34,7 @@ nav {
 }
 
 .button {
-    
+
     padding: 10px 20px;
     text-align: center;
     align-items: center;
@@ -53,8 +53,7 @@ nav {
 
 .nav-text-style {
     flex-direction: column;
-    height: 7vh;
-    width: 10vw;
+    padding: 10px 20px;
     text-align: center;
     align-items: center;
     justify-content: center;
