@@ -11,9 +11,7 @@ function init() {
     section = document.querySelector("#my-money")
 
     getMoney()
-
     moneyCount()
-
     sliceData(myMoney, spendMoney)
     console.log(myMoney)
     if (price > 0) {
@@ -93,9 +91,9 @@ function getMoney() {
 function sliceData(myMoney, spendMoney) {
 
     for (let value of spendMoney) {
-        let index = myMoney.indexOf(value); // Find the first occurrence
+        let index = myMoney.indexOf(value);
         if (index !== -1) {
-            myMoney.splice(index, 1); // Remove the first found occurrence
+            myMoney.splice(index, 1);
         }
     }
 }
