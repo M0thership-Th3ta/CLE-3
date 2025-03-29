@@ -59,6 +59,9 @@ th{
 table tr:nth-child(even) {
     background-color: lightgrey;
 }
+td{
+    width: 30vw;
+}
 .tableScroll{
     max-height: 70vh;
     overflow: scroll;
