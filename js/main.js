@@ -4,10 +4,12 @@ let money
 let error
 let section
 let item
-let totalSaldo = JSON.parse(localStorage.getItem('saldo')) || 0.00;
-
+let totalSaldo = 0.00;
+let portemonnee = JSON.parse(localStorage.getItem('portemonnee'))
+let myMoney = []
 
 function init() {
+    getMoney()
     section = document.querySelector("#formSection")
     form = document.querySelector("#calculatorForm")
     money = document.querySelector("#to-pay")
@@ -15,6 +17,8 @@ function init() {
     error = section.querySelector("#error")
     saldo = document.querySelector("#totalSaldo")
 
+
+    console.log(totalSaldo)
     console.log(saldo)
     saldo.textContent = "€" + totalSaldo
     form.addEventListener("submit", formHandler)
@@ -31,6 +35,7 @@ function formHandler(e) {
         if (cash > totalSaldo) {
             alert(`u heeft nog €${cash - totalSaldo} nodig`)
         } else {
+            localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
             localStorage.setItem("price", cash)
             localStorage.setItem("product", item.value)
             window.location.href = "./calculator.html";
@@ -43,4 +48,23 @@ function formHandler(e) {
         money.value = ""
     }
 
+}
+
+function getMoney() {
+    //  console.log(myMoney)
+    for (let contains of portemonnee) {
+        for (let i = 0; i < contains.aantal; i++) {
+            myMoney.push(contains.waarde)
+        }
+    }
+    totalSaldoCalc()
+}
+
+
+function totalSaldoCalc() {
+    for (let money of myMoney) {
+        totalSaldo = totalSaldo + money
+
+
+    }
 }

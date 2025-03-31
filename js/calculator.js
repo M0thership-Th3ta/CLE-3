@@ -2,10 +2,13 @@ window.addEventListener("load", init)
 let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || []
 let totalSaldo = localStorage.getItem("saldo")
 let price = localStorage.getItem("price")
+let startPrice = parseInt(localStorage.getItem("price"))
 let myMoney = [];
 let spendMoney = [];
 let section;
-
+let calculate = 0;
+let newArray = [];
+let myMoneyDubeplicate = [];
 
 function init() {
     section = document.querySelector("#my-money")
@@ -13,11 +16,12 @@ function init() {
     getMoney()
     moneyCount()
     sliceData(myMoney, spendMoney)
-    console.log(myMoney)
     if (price > 0) {
         reverseMoney()
+        sliceData(myMoney, spendMoney)
     }
-
+    totalSaldo = totalSaldo - price
+    moneyBack()
 }
 
 //loopt van groot naar kleinste waarde zodat we het meeste al hebben besteed
@@ -29,7 +33,7 @@ function moneyCount() {
             div.dataset.name = value;
             let p = document.createElement("p");
             spendMoney.push(value)
-
+            calculate = value + calculate
             console.log("Using:", value);
             price = Math.max(0, price - value).toFixed(2)
             console.log("Remaining price:", price);
@@ -42,18 +46,34 @@ function moneyCount() {
             }
         }
     }
-    console.log(myMoney)
-
 }
+
+/*
+
+Hier sliced het
+
+ */
 
 function reverseMoney() {
     console.log("it does")
 // doet van klein naar groot want als je geld over houdt ga je dat gebruiken.
     for (let value of myMoney.reverse()) {
-        console.log("for works")
         if (value >= price) {
-            console.log("if works?")
+            console.log(startPrice)
+            if (calculate < startPrice && value > startPrice && startPrice >= 0) {
 
+                section.innerText = ""
+                console.log(newArray, "HEKWFKSILJD")
+                newArray.push(value)
+
+
+                sliceData(myMoneyDubeplicate, newArray)
+                myMoney = myMoneyDubeplicate
+                console.log(myMoney, "HELPs")
+                startPrice = startPrice - value
+                console.log(startPrice, "HHHHHEEEELPPT")
+
+            }
             let div = document.createElement("div")
             section.append(div)
             div.dataset.name = value
@@ -63,10 +83,12 @@ function reverseMoney() {
 
             p.innerText = value
             div.append(p)
-            //   console.log(value)
+
             console.log("Using:", value, "reverse");
             price = Math.max(0, price - value).toFixed(2)
             console.log("Remaining price:", price, "reverse");
+
+
             if (price <= 0.00) {
                 console.log(price, "is nul")
                 return;
@@ -82,6 +104,7 @@ function getMoney() {
     for (let contains of portemonnee) {
         for (let i = 0; i < contains.aantal; i++) {
             myMoney.push(contains.waarde)
+            myMoneyDubeplicate.push(contains.waarde)
         }
     }
 
@@ -98,5 +121,32 @@ function sliceData(myMoney, spendMoney) {
     }
 }
 
+function moneyBack() {
+    console.log("Returning money...");
 
 
+    // Retrieve and update localStorage portemonnee
+    let portemonnee = JSON.parse(localStorage.getItem("portemonnee")) || [];
+
+    // Restore spent money correctly
+    spendMoney.forEach(value => {
+        let existing = portemonnee.find(item => item.waarde === value);
+        if (existing) {
+            existing.aantal -= 1; // Increment count if value exists
+        } else {
+            portemonnee.push({waarde: value, aantal: 1}); // Add new value if not found
+        }
+    });
+
+    // Clear spendMoney array
+    spendMoney = [];
+
+    // Update localStorage
+
+    localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
+    localStorage.setItem("portemonnee", JSON.stringify(portemonnee));
+
+    // Recalculate available money
+    getMoney();
+    moneyCount();
+}
