@@ -63,13 +63,14 @@ function reverseMoney() {
             if (calculate < startPrice && value > startPrice && startPrice >= 0) {
 
                 section.innerText = ""
-                console.log(newArray, "HEKWFKSILJD")
+
                 newArray.push(value)
 
 
                 sliceData(myMoneyDubeplicate, newArray)
                 myMoney = myMoneyDubeplicate
-                console.log(myMoney, "HELPs")
+                spendMoney = newArray
+                console.log(spendMoney, "HELPs")
                 startPrice = startPrice - value
                 console.log(startPrice, "HHHHHEEEELPPT")
 
@@ -125,9 +126,6 @@ function moneyBack() {
     console.log("Returning money...");
 
 
-    // Retrieve and update localStorage portemonnee
-    let portemonnee = JSON.parse(localStorage.getItem("portemonnee")) || [];
-
     // Restore spent money correctly
     spendMoney.forEach(value => {
         let existing = portemonnee.find(item => item.waarde === value);
@@ -137,16 +135,6 @@ function moneyBack() {
             portemonnee.push({waarde: value, aantal: 1}); // Add new value if not found
         }
     });
-
-    // Clear spendMoney array
-    spendMoney = [];
-
-    // Update localStorage
-
     localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
     localStorage.setItem("portemonnee", JSON.stringify(portemonnee));
-
-    // Recalculate available money
-    getMoney();
-    moneyCount();
 }
