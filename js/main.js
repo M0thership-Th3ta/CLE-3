@@ -62,9 +62,6 @@ function getMoney() {
 
 
 function totalSaldoCalc() {
-    for (let money of myMoney) {
-        totalSaldo = totalSaldo + money
-
-
-    }
+    totalSaldo = myMoney.reduce((sum, money) => sum + money, 0)
+    totalSaldo = parseFloat(totalSaldo.toFixed(2))
 }
