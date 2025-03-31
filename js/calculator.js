@@ -60,6 +60,7 @@ function reverseMoney() {
     for (let value of myMoney.reverse()) {
         if (value >= price) {
             console.log(startPrice)
+            spendMoney.push(value)
             if (calculate < startPrice && value > startPrice && startPrice >= 0) {
 
                 section.innerText = ""
@@ -80,7 +81,7 @@ function reverseMoney() {
             div.dataset.name = value
 
             let p = document.createElement("p")
-            spendMoney.push(value)
+          
 
             p.innerText = value
             div.append(p)
