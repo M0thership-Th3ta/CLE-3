@@ -81,7 +81,7 @@ ul {
     list-style-type: disc;
     margin: 2em 0 2em 0;
     padding-left: 60px;
-    width: 50vw;
+    width: 60vw;
     max-height: 40vh;
     overflow: scroll;
 }

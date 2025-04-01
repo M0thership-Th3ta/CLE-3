@@ -33,7 +33,7 @@ function formHandler(e) {
     let cash = parseFloat(money.value.replace(",", "."))
     if (!isNaN(cash) && cash !== "" && cash === Number(cash.toFixed(2))) {
         if (cash > totalSaldo) {
-            alert(`u heeft nog €${cash - totalSaldo} nodig`)
+            alert(`u heeft nog €${cash - parseInt(totalSaldo.toFixed(2))} nodig`)
         } else {
             localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
             localStorage.setItem("price", cash)

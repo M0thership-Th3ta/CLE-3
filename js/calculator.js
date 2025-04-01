@@ -31,12 +31,34 @@ function moneyCount() {
             let div = document.createElement("div");
             section.append(div);
             div.dataset.name = value;
+            let image
+
+            if (value >= 1) {
+                image = `./img/${value}.png`
+            } else if (value < 1) {
+                image = `./img/${value.toFixed(2)}.png`
+            } else {
+                console.log("img error")
+            }
+
+            if (value > 2) {
+                div.classList.add("paper")
+            } else if (value <= 2) {
+                div.classList.add("coin")
+            }
+
+            let img = document.createElement("img")
+
+            img.src = image
+            div.append(img)
+
             let p = document.createElement("p");
             spendMoney.push(value)
             calculate = value + calculate
             console.log("Using:", value);
             price = Math.max(0, price - value).toFixed(2)
             console.log("Remaining price:", price);
+            p.classList = "calcP"
             p.innerText = value;
             div.append(p);
 
@@ -48,11 +70,6 @@ function moneyCount() {
     }
 }
 
-/*
-
-Hier sliced het
-
- */
 
 function reverseMoney() {
     console.log("it does")
@@ -76,14 +93,37 @@ function reverseMoney() {
                 console.log(startPrice, "HHHHHEEEELPPT")
 
             }
+            
             let div = document.createElement("div")
             section.append(div)
             div.dataset.name = value
 
+            let image
+
+            if (value >= 1) {
+                image = `./img/${value}.png`
+            } else if (value < 1) {
+                image = `./img/${value.toFixed(2)}.png`
+            } else {
+                console.log("img error")
+            }
+
+            if (value > 2) {
+                div.classList.add("paper")
+            } else if (value <= 2) {
+                div.classList.add("coin")
+            }
+
+            let img = document.createElement("img")
+
+            img.src = image
+            div.append(img)
+
             let p = document.createElement("p")
-          
+
 
             p.innerText = value
+            p.classList.add("calcP")
             div.append(p)
 
             console.log("Using:", value, "reverse");
@@ -124,18 +164,15 @@ function sliceData(myMoney, spendMoney) {
 }
 
 function moneyBack() {
-    console.log("Returning money...");
-
-
-    // Restore spent money correctly
     spendMoney.forEach(value => {
         let existing = portemonnee.find(item => item.waarde === value);
         if (existing) {
-            existing.aantal -= 1; // Increment count if value exists
+            existing.aantal -= 1;
         } else {
-            portemonnee.push({waarde: value, aantal: 1}); // Add new value if not found
+            portemonnee.push({waarde: value, aantal: 1});
         }
     });
     localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
     localStorage.setItem("portemonnee", JSON.stringify(portemonnee));
 }
+
