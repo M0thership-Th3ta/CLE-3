@@ -67,3 +67,25 @@ nav a {
     text-decoration: none;
     color: white;
 }
+
+.calcP {
+    margin-bottom: 20px;
+}
+
+.paper img {
+    height: 100px;
+    width: 170px;
+
+}
+
+.coin img {
+    height: 50px;
+    width: 50px;
+
+}
+
+.section-class {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
