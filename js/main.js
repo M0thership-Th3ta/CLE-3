@@ -20,7 +20,7 @@ function init() {
 
     console.log(totalSaldo)
     console.log(saldo)
-    saldo.textContent = "€" + totalSaldo
+    saldo.textContent = "€" + totalSaldo.toFixed(2)
     form.addEventListener("submit", formHandler)
     console.log(totalSaldo)
 }

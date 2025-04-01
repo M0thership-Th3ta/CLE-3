@@ -58,7 +58,7 @@ function moneyCount() {
             console.log("Using:", value);
             price = Math.max(0, price - value).toFixed(2)
             console.log("Remaining price:", price);
-            p.classList = "calcP"
+            p.classList.add("calcP")
             p.innerText = value.toFixed(2)
             div.append(p);
 
@@ -88,9 +88,9 @@ function reverseMoney() {
                 sliceData(myMoneyDubeplicate, newArray)
                 myMoney = myMoneyDubeplicate
                 spendMoney = newArray
-                console.log(spendMoney, "HELPs")
+
                 startPrice = startPrice - value
-                console.log(startPrice, "HHHHHEEEELPPT")
+
 
             }
 
@@ -142,7 +142,7 @@ function reverseMoney() {
 
 // zet portomenee in een apparte array
 function getMoney() {
-    //  console.log(myMoney)
+
     for (let contains of portemonnee) {
         for (let i = 0; i < contains.aantal; i++) {
             myMoney.push(contains.waarde)
@@ -154,25 +154,24 @@ function getMoney() {
 
 
 function sliceData(myMoney, spendMoney) {
-
     for (let value of spendMoney) {
-        let index = myMoney.indexOf(value);
+        let index = myMoney.indexOf(value)
         if (index !== -1) {
-            myMoney.splice(index, 1);
+            myMoney.splice(index, 1)
         }
     }
 }
 
 function moneyBack() {
     spendMoney.forEach(value => {
-        let existing = portemonnee.find(item => item.waarde === value);
+        let existing = portemonnee.find(item => item.waarde === value)
         if (existing) {
-            existing.aantal -= 1;
+            existing.aantal -= 1
         } else {
-            portemonnee.push({waarde: value, aantal: 1});
+            portemonnee.push({waarde: value, aantal: 1})
         }
-    });
+    })
     localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
-    localStorage.setItem("portemonnee", JSON.stringify(portemonnee));
+    localStorage.setItem("portemonnee", JSON.stringify(portemonnee))
 }
 
