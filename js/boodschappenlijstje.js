@@ -1,17 +1,14 @@
 window.addEventListener("load", init);
 
 //globale variabelen
-let inputButton
 let htmlList
 let clearButton
 let form
-
 let list = [];
 
 //Een functie die de initializatie van de pagina regelt
 function init(){
     //De variabelen initialiseren
-    inputButton = document.querySelector("#input")
     htmlList = document.querySelector("#boodschappenlijst")
     clearButton = document.querySelector("#clear-button")
     form = document.querySelector("#boodschappen-form")
