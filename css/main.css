@@ -76,6 +76,7 @@ nav a {
     height: 100px;
     width: 170px;
 
+
 }
 
 .coin img {
@@ -88,4 +89,10 @@ nav a {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+}
+
+.paper, .coin {
+    text-align: center;
+
+    align-content: center;
 }
