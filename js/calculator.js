@@ -59,7 +59,7 @@ function moneyCount() {
             price = Math.max(0, price - value).toFixed(2)
             console.log("Remaining price:", price);
             p.classList = "calcP"
-            p.innerText = value;
+            p.innerText = value.toFixed(2)
             div.append(p);
 
             if (price <= 0.00) {
@@ -93,7 +93,7 @@ function reverseMoney() {
                 console.log(startPrice, "HHHHHEEEELPPT")
 
             }
-            
+
             let div = document.createElement("div")
             section.append(div)
             div.dataset.name = value
@@ -122,7 +122,7 @@ function reverseMoney() {
             let p = document.createElement("p")
 
 
-            p.innerText = value
+            p.innerText = value.toFixed(2)
             p.classList.add("calcP")
             div.append(p)
 
