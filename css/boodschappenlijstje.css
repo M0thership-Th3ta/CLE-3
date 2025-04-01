@@ -1,3 +1,8 @@
+:root {
+    --error: red;
+    --nav-button: #7070ff;
+}
+
 html {
     font-size: 16px;
     font-family: "sans-serif";
@@ -6,6 +11,36 @@ html {
 
 body {
     margin: 0;
+}
+
+a {
+    all: unset;
+}
+
+.nav-style {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+}
+
+.button {
+    padding: 30px 30px;
+    font-size: 30px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: var(--nav-button);
+    border-radius: 5px;
+    color: white;
+    border: solid 2px black;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
 }
 
 .strike {

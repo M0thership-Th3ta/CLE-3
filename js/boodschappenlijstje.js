@@ -4,7 +4,7 @@ window.addEventListener("load", init);
 let inputButton
 let htmlList
 let clearButton
-let listItemsEvent
+let form
 
 let list = [];
 
@@ -14,9 +14,10 @@ function init(){
     inputButton = document.querySelector("#input")
     htmlList = document.querySelector("#boodschappenlijst")
     clearButton = document.querySelector("#clear-button")
+    form = document.querySelector("#boodschappen-form")
 
     //Event listeners
-    inputButton.addEventListener("click", addItems)
+    form.addEventListener("submit", addItems)
     htmlList.addEventListener("click", strikeOut)
     clearButton.addEventListener("click", clearList)
 
