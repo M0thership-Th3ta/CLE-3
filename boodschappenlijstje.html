@@ -2,43 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/boodschappenlijstje.css">
     <title>Boodschappenlijstje</title>
-    <script defer type="text/javascript" src=js/boodschappenlijstje.js></script>
+    <link rel="stylesheet" href="css/boodschappenlijstje.css">
+    <script src="js/boodschappenlijstje.js"></script>
 </head>
 <body>
-    <nav class="nav-style">
-        <section class="nav-content button">
-            <div class="image-container">
-                <img src="" alt="">
-            </div>
-            <a href="main.html">Terug</a>
-        </section>
+<header>
+    <nav>
+        <a href="main.html"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+            <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+        </svg>Terug</a>
     </nav>
-    <header>
-        <section class="header-start">
-            <h1>Boodschappenlijstje</h1>
-            <p>Ik wil iets toevoegen.</p>
-        </section>
-        <form id="boodschappen-form">
-            <div class="form-item">
-                <label for="boodschap">Boodschap:</label>
-                <input type="text" id="boodschap" name="boodschap">
-                <button type="button" class="button" id="input">Toevoegen</button>
-            </div>
-        </form>
-    </header>
-    <main>
-        <section class="boodschappenlijst">
-            <h2>Boodschappenlijst</h2>
-            <ul id="boodschappenlijst">
-                <!-- List items will be added here -->
-            </ul>
-        </section>
-        <p id="clear-button" class="button">Lijst leegmaken</p>
-    </main>
+    <h1>
+        Boodschappenlijstje
+    </h1>
+</header>
+<main>
+    <form id="boodschappen-form">
+        <div class="form-item">
+            <label for="boodschap">Ik wil iets toevoegen.</label>
+            <input type="text" id="boodschap" name="boodschap" placeholder="Schrijf hier wat je wilt toevoegen.">
+            <button type="button" class="button" id="input">Toevoegen</button>
+        </div>
+    </form>
+    <section class="boodschappenlijst">
+        <ul id="boodschappenlijst">
+            <!-- List items will be added here -->
+        </ul>
+    </section>
+    <p id="clear-button" class="button">Lijst leegmaken</p>
+</main>
 </body>
 </html>
