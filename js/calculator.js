@@ -2,7 +2,7 @@ window.addEventListener("load", init)
 let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || []
 let totalSaldo = localStorage.getItem("saldo")
 let price = localStorage.getItem("price")
-let startPrice = parseInt(localStorage.getItem("price"))
+let startPrice = localStorage.getItem("price")
 let myMoney = [];
 let spendMoney = [];
 let section;
@@ -12,15 +12,20 @@ let myMoneyDubeplicate = [];
 
 function init() {
     section = document.querySelector("#my-money")
-
+    console.log(startPrice)
     getMoney()
     moneyCount()
     sliceData(myMoney, spendMoney)
+    let button = document.querySelector("#button")
     if (price > 0) {
         reverseMoney()
         sliceData(myMoney, spendMoney)
     }
+    button.addEventListener("click", buttonHandler)
     totalSaldo = totalSaldo - price
+}
+
+function buttonHandler(e) {
     moneyBack()
 }
 
@@ -78,8 +83,15 @@ function reverseMoney() {
         if (value >= price) {
             console.log(startPrice)
             spendMoney.push(value)
-            if (calculate < startPrice && value > startPrice && startPrice >= 0) {
 
+            console.log(calculate, "1c")
+            console.log(startPrice)
+            console.log(value, "1v")
+
+            if (calculate < startPrice && value > startPrice && startPrice >= 0) {
+                console.log(calculate, "c")
+                console.log(startPrice, "s")
+                console.log(value, "v")
                 section.innerText = ""
 
                 newArray.push(value)
