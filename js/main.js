@@ -8,11 +8,12 @@ let totalSaldo = 0.00;
 let portemonnee = JSON.parse(localStorage.getItem('portemonnee'))
 let myMoney = []
 let date;
+let d;
 
 function init() {
     getMoney()
 
-    let d = new Date()
+    d = new Date()
     section = document.querySelector("#formSection")
     form = document.querySelector("#calculatorForm")
     money = document.querySelector("#to-pay")
