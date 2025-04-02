@@ -162,6 +162,6 @@ function moneyBack() {
     })
     localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
     localStorage.setItem("portemonnee", JSON.stringify(portemonnee))
-    localStorage.setItem("diffrence", diffrence)
+    localStorage.setItem("diffrence", diffrence.toFixed(2))
 }
 
