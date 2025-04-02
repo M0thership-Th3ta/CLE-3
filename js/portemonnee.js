@@ -120,10 +120,40 @@ function setupEventListeners() {
         resetBtn.addEventListener('click', resetPortemonnee);
     }
 }
+function openModal() {
+    modalOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+}
+
+// Function to close modal
+function closeModal() {
+    modalOverlay.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+}
 
 // Initialisatie
 document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     vulInputVelden();
     toonPortemonnee();
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const openModalBtn = document.querySelector('.open-modal-btn');
+    const closeBtn = document.getElementById('closeBtn');
+    openModalBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.style.display === 'block') {
+            closeModal();
+        }
+    });
 });

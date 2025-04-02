@@ -7,13 +7,23 @@
     <script src="js/portemonnee.js" defer></script>
 </head>
 <body>
+<div class="modal-overlay" id="modalOverlay">
+    <!-- Modal content -->
+    <div class="modal">
+        <button class="close-btn" id="closeBtn">X</button>
+        <div class="modal-content">
+            <h2>Inhoud portemonnee</h2>
+            <ul id="portemonneeLijst"></ul>
+        </div>
+    </div>
+</div>
 <header>
     <nav>
         <a href="main.html"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
             <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
         </svg>Terug</a>
-        <h3>Aantal: €<span id="totaalSaldo">0.00</span><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+        <h3 class="open-modal-btn">Aantal: €<span id="totaalSaldo">0.00</span><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
             <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
         </svg></h3>
     </nav>
@@ -133,13 +143,13 @@
         </div>
     </div>
     <div class="flex-zooi">
-        <button type="button" id="resetBtn" class="submit">Portemonnee legen</button>
+        <button type="button" id="resetBtn" class="submit"><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-trash3" width="40" height="40" viewBox="0 0 16 16">
+            <path
+                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+        </svg>
+            Portemonnee legen</button>
     </div>
 </form>
 
-<h2>Uw Portemonnee</h2>
-<ul id="portemonneeLijst"></ul>
-
-<h3>Aantal: €<span id="totaalSaldo">0.00</span></h3>
 </body>
 </html>
