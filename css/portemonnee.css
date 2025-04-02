@@ -129,11 +129,20 @@ nav a {
     color: white;
     border: solid 2px black;
     font-size: 30px;
+    list-style: none;
+    text-decoration: none;
+    text-underline: none;
+}
+
+.submit a {
+    text-decoration: none;
+    color: white;
 }
 
 .flex-zooi {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 20px;
     align-items: center;
     align-content: center;
     justify-content: center;
