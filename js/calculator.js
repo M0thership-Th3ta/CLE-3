@@ -1,19 +1,21 @@
 window.addEventListener("load", init)
 let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || []
-let totalSaldo = localStorage.getItem("saldo")
-let price = localStorage.getItem("price")
-let startPrice = localStorage.getItem("price")
+let totalSaldo = Number(localStorage.getItem("saldo"))
+let price = Number(localStorage.getItem("price"))
+let startPrice = Number(localStorage.getItem("price"))
 let myMoney = [];
 let spendMoney = [];
 let section;
 let calculate = 0;
 let newArray = [];
 let myMoneyDubeplicate = [];
+let diffrence = Number(localStorage.getItem("price"))
 
 function init() {
     section = document.querySelector("#my-money")
-    console.log(startPrice)
+
     getMoney()
+
     moneyCount()
     sliceData(myMoney, spendMoney)
     let button = document.querySelector("#button")
@@ -38,6 +40,7 @@ function moneyCount() {
             div.dataset.name = value;
             let image
 
+
             if (value >= 1) {
                 image = `./img/${value}.png`
             } else if (value < 1) {
@@ -60,11 +63,9 @@ function moneyCount() {
             let p = document.createElement("p");
             spendMoney.push(value)
             calculate = value + calculate
-            console.log("Using:", value);
             price = Math.max(0, price - value).toFixed(2)
-            console.log("Remaining price:", price);
             p.classList.add("calcP")
-            p.innerText = value.toFixed(2)
+            p.innerText = `€${value.toFixed(2)}`
             div.append(p);
 
             if (price <= 0.00) {
@@ -77,41 +78,25 @@ function moneyCount() {
 
 
 function reverseMoney() {
-    console.log("it does")
+
 // doet van klein naar groot want als je geld over houdt ga je dat gebruiken.
     for (let value of myMoney.reverse()) {
         if (value >= price) {
-            console.log(startPrice)
             spendMoney.push(value)
-
-            console.log(calculate, "1c")
-            console.log(startPrice)
-            console.log(value, "1v")
-
             if (calculate < startPrice && value > startPrice && startPrice >= 0) {
-                console.log(calculate, "c")
-                console.log(startPrice, "s")
-                console.log(value, "v")
                 section.innerText = ""
-
                 newArray.push(value)
-
-
                 sliceData(myMoneyDubeplicate, newArray)
                 myMoney = myMoneyDubeplicate
                 spendMoney = newArray
-
                 startPrice = startPrice - value
-
-
+                diffrence = value - diffrence
             }
 
             let div = document.createElement("div")
             section.append(div)
             div.dataset.name = value
-
             let image
-
             if (value >= 1) {
                 image = `./img/${value}.png`
             } else if (value < 1) {
@@ -119,32 +104,24 @@ function reverseMoney() {
             } else {
                 console.log("img error")
             }
-
             if (value > 2) {
                 div.classList.add("paper")
             } else if (value <= 2) {
                 div.classList.add("coin")
             }
-
             let img = document.createElement("img")
-
             img.src = image
             div.append(img)
-
             let p = document.createElement("p")
-
-
-            p.innerText = value.toFixed(2)
+            p.innerText = `€${value.toFixed(2)}`
             p.classList.add("calcP")
             div.append(p)
+            price = Math.max(0, value - price).toFixed(2)
 
-            console.log("Using:", value, "reverse");
-            price = Math.max(0, price - value).toFixed(2)
-            console.log("Remaining price:", price, "reverse");
+            console.log(diffrence, "check")
 
 
             if (price <= 0.00) {
-                console.log(price, "is nul")
                 return;
             }
         }
@@ -185,5 +162,6 @@ function moneyBack() {
     })
     localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
     localStorage.setItem("portemonnee", JSON.stringify(portemonnee))
+    localStorage.setItem("diffrence", diffrence)
 }
 
