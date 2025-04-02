@@ -1,6 +1,7 @@
 // Laad en bewaar portemonnee gegevens
 let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
 let wisselgeld = JSON.parse(localStorage.getItem('wisselgeld')) || [];
+let diffrence = JSON.parse(localStorage.getItem('diffrence')) || 0;
 
 // Geldsoorten configuratie
 const geldSoorten = [
@@ -16,38 +17,39 @@ const geldSoorten = [
     {waarde: 0.05, id: 'munt0.05'}
 ];
 
-// Bereken totaal saldo
+// Bereken totaal saldo van wisselgeld
 function berekenSaldo() {
     return wisselgeld.reduce((totaal, item) => totaal + item.waarde * item.aantal, 0);
 }
 
-// Update alle indicators
-function updateIndicators() {
+// Beperk invoer op basis van diffrence
+function checkMaxInput() {
+    let huidigTotaal = berekenSaldo();
+
     geldSoorten.forEach(geld => {
-        const indicator = document.getElementById(`${geld.id}-indicator`);
-        if (indicator) {
-            const item = wisselgeld.find(item => item.waarde === geld.waarde);
-            indicator.textContent = item ? item.aantal : 0;
+        const input = document.getElementById(geld.id);
+        const plus = document.querySelector(`#${geld.id}-plus`);
+        if (input) {
+            if (huidigTotaal + geld.waarde > diffrence) {
+                input.disabled = true;
+                if (plus) plus.disabled = true;
+            } else {
+                input.disabled = false;
+                if (plus) plus.disabled = false;
+            }
         }
     });
 }
 
-// Toon portemonnee
-function toonPortemonnee() {
-    const lijstElement = document.getElementById('portemonneeLijst');
-    if (lijstElement) {
-        lijstElement.innerHTML = wisselgeld.map(item =>
-            `<li>${item.aantal}x €${item.waarde.toFixed(2)}</li>`
-        ).join('');
-    }
-
-    const saldo = berekenSaldo().toFixed(2);
-    const saldoElement = document.getElementById('totaalSaldo');
-    if (saldoElement) {
-        saldoElement.textContent = saldo;
-        localStorage.setItem('saldo', saldo);
-    }
-    updateIndicators();
+// Vul de inputvelden in op basis van wisselgeld
+function vulInputVelden() {
+    geldSoorten.forEach(geld => {
+        const input = document.getElementById(geld.id);
+        if (input) {
+            let item = wisselgeld.find(i => i.waarde === geld.waarde);
+            input.value = item ? item.aantal : 0;
+        }
+    });
 }
 
 // Verzamel invoerwaarden
@@ -61,18 +63,38 @@ function verzamelInvoer() {
     });
 }
 
-// Update portemonnee
-function voegToeAanPortemonnee() {
-    const invoer = verzamelInvoer();
-    wisselgeld = invoer.filter(item => item.aantal > 0)
-        .sort((a, b) => b.waarde - a.waarde);
-    toonPortemonnee();
-    localStorage.setItem('wisselgeld', JSON.stringify(wisselgeld));
+// Update indicatoren
+function updateIndicators() {
+    geldSoorten.forEach(geld => {
+        const indicator = document.getElementById(`${geld.id}-indicator`);
+        if (indicator) {
+            const item = wisselgeld.find(item => item.waarde === geld.waarde);
+            indicator.textContent = item ? item.aantal : 0;
+        }
+    });
 }
 
-// Functie om wisselgeld aan portemonnee toe te voegen
+// Update wisselgeld selectie in localStorage
+function voegToeAanWisselgeld() {
+    const invoer = verzamelInvoer();
+    let totaal = invoer.reduce((sum, item) => sum + (item.waarde * item.aantal), 0);
+
+    if (totaal > diffrence) {
+        alert(`Je kunt niet meer dan €${diffrence.toFixed(2)} invoeren!`);
+        return;
+    }
+
+    // Update wisselgeld in localStorage
+    wisselgeld = invoer.filter(item => item.aantal > 0);
+    localStorage.setItem('wisselgeld', JSON.stringify(wisselgeld));
+
+    toonPortemonnee();
+    checkMaxInput();
+    updateIndicators();
+}
+
+// Functie om het wisselgeld definitief naar de portemonnee te sturen en door te geven
 function stopWisselgeldInPortemonnee() {
-    // Voeg het huidige wisselgeld toe aan de portemonnee
     wisselgeld.forEach(wisselItem => {
         const bestaandItem = portemonnee.find(item => item.waarde === wisselItem.waarde);
         if (bestaandItem) {
@@ -82,47 +104,48 @@ function stopWisselgeldInPortemonnee() {
         }
     });
 
-    // Sorteer portemonnee op waarde (hoog naar laag)
-    portemonnee.sort((a, b) => b.waarde - a.waarde);
-
-    // Bewaar de bijgewerkte portemonnee
+    // Bewaar in localStorage
     localStorage.setItem('portemonnee', JSON.stringify(portemonnee));
 
-    // Reset het wisselgeld
-    wisselgeld = [];
-    localStorage.setItem('wisselgeld', JSON.stringify(wisselgeld));
+    localStorage.setItem('wisselgeldJSON', JSON.stringify(wisselgeld));
 
-    // Update de weergave
-    vulInputVelden();
+    localStorage.setItem('wisselgeld', JSON.stringify(wisselgeld));
+    wisselgeld = [];
+    localStorage.removeItem('wisselgeld')
     toonPortemonnee();
+    updateIndicators();
 
     alert('Wisselgeld is aan je portemonnee toegevoegd!');
+    window.location.href = "main.html";
 }
 
-// Vul input velden
-function vulInputVelden() {
-    geldSoorten.forEach(geld => {
-        const input = document.getElementById(geld.id);
-        const indicator = document.getElementById(`${geld.id}-indicator`);
-        const item = wisselgeld.find(item => item.waarde === geld.waarde);
-
-        if (input) input.value = item ? item.aantal : 0;
-        if (indicator) indicator.textContent = item ? item.aantal : 0;
-    });
-}
-
-// Reset alles
-function resetPortemonnee() {
+// Reset de wisselgeld selectie
+function resetWisselgeld() {
     wisselgeld = [];
-    const form = document.getElementById('portemonneeForm');
-    if (form) form.reset();
     localStorage.removeItem('wisselgeld');
-    localStorage.removeItem('saldo');
     vulInputVelden();
     toonPortemonnee();
+    updateIndicators();
 }
 
-// Event listeners
+// Toon portemonnee en saldo
+function toonPortemonnee() {
+    const lijstElement = document.getElementById('portemonneeLijst');
+    if (lijstElement) {
+        lijstElement.innerHTML = wisselgeld.map(item =>
+            `<li>${item.aantal}x €${item.waarde.toFixed(2)}</li>`
+        ).join('');
+    }
+
+    const saldoElement = document.getElementById('totaalSaldo');
+    if (saldoElement) {
+        saldoElement.textContent = berekenSaldo().toFixed(2);
+    }
+
+    updateIndicators();
+}
+
+// Event listeners voor knoppen
 function setupEventListeners() {
     document.querySelectorAll('.form-item').forEach(item => {
         const input = item.querySelector('input');
@@ -131,35 +154,46 @@ function setupEventListeners() {
 
         if (plus && input) {
             plus.addEventListener('click', () => {
-                input.value = (parseInt(input.value) || 0) + 1;
-                voegToeAanPortemonnee();
+                let waarde = parseInt(input.value) || 0;
+                let geld = geldSoorten.find(g => g.id === input.id);
+
+                if (berekenSaldo() + geld.waarde <= diffrence) {
+                    input.value = waarde + 1;
+                    voegToeAanWisselgeld();
+                }
             });
         }
 
         if (minus && input) {
             minus.addEventListener('click', () => {
-                const waarde = parseInt(input.value) || 0;
-                if (waarde > 0) input.value = waarde - 1;
-                voegToeAanPortemonnee();
+                let waarde = parseInt(input.value) || 0;
+                if (waarde > 0) {
+                    input.value = waarde - 1;
+                    voegToeAanWisselgeld();
+                }
             });
         }
     });
 
-    const resetBtn = document.getElementById('resetBtn');
-    if (resetBtn) {
-        resetBtn.addEventListener('click', resetPortemonnee);
-    }
-
-    // Voeg event listener toe voor de nieuwe button
     const stopWisselgeldBtn = document.getElementById('stopWisselgeldBtn');
     if (stopWisselgeldBtn) {
         stopWisselgeldBtn.addEventListener('click', stopWisselgeldInPortemonnee);
+    }
+
+    const resetBtn = document.getElementById('resetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', resetWisselgeld);
     }
 }
 
 // Initialisatie
 document.addEventListener('DOMContentLoaded', () => {
+    if (diffrence === 0) {
+        window.location.href = "main.html";
+    }
+
     setupEventListeners();
     vulInputVelden();
     toonPortemonnee();
+    checkMaxInput();
 });
