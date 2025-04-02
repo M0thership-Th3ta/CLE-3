@@ -9,11 +9,11 @@ let section;
 let calculate = 0;
 let newArray = [];
 let myMoneyDubeplicate = [];
-let diffrence = Number(localStorage.getItem("price"))
+let diffrence;
 
 function init() {
     section = document.querySelector("#my-money")
-
+    diffrence = 0.00
     getMoney()
 
     moneyCount()
@@ -60,7 +60,7 @@ function moneyCount() {
             img.src = image
             div.append(img)
 
-            let p = document.createElement("p");
+            let p = document.createElement("h3");
             spendMoney.push(value)
             calculate = value + calculate
             price = Math.max(0, price - value).toFixed(2)
@@ -90,6 +90,7 @@ function reverseMoney() {
                 myMoney = myMoneyDubeplicate
                 spendMoney = newArray
                 startPrice = startPrice - value
+                diffrence = Number(localStorage.getItem("price"))
                 diffrence = value - diffrence
             }
 
