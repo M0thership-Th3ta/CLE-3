@@ -14,8 +14,9 @@ let diffrence;
 function init() {
     section = document.querySelector("#my-money")
     diffrence = 0.00
+    let backButton = document.querySelector("#backbutton")
+    backButton.addEventListener("click", backButtonHandler)
     getMoney()
-
     moneyCount()
     sliceData(myMoney, spendMoney)
     let button = document.querySelector("#button")
@@ -29,6 +30,10 @@ function init() {
 
 function buttonHandler(e) {
     moneyBack()
+}
+
+function backButtonHandler(e) {
+    localStorage.removeItem("wisselgeld")
 }
 
 //loopt van groot naar kleinste waarde zodat we het meeste al hebben besteed
