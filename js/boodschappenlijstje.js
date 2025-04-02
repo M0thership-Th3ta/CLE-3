@@ -40,6 +40,7 @@ function listItems(){
             console.log(item)
             let li = document.createElement("li")
             li.textContent = item
+            li.setAttribute("arial-label", item)
             htmlList.appendChild(li)
         }
     }
