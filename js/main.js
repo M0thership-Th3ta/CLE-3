@@ -25,6 +25,25 @@ function init() {
     saldo.textContent = "€" + totalSaldo.toFixed(2)
     form.addEventListener("submit", formHandler)
     console.log(totalSaldo)
+
+    //modal popup voor error
+    const modalOverlay = document.getElementById('modalOverlay');
+    const closeBtn = document.getElementById('closeBtn');
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalOverlay.style.display === 'block') {
+            closeModal();
+        }
+    });
 }
 
 function formHandler(e) {
@@ -47,7 +66,7 @@ function formHandler(e) {
 
     } else {
         console.log("error")
-        error.innerText = "U moet een geldige prijs invoeren"
+        openModal();
         money.value = ""
     }
 
@@ -67,4 +86,15 @@ function getMoney() {
 function totalSaldoCalc() {
     totalSaldo = myMoney.reduce((sum, money) => sum + money, 0)
     totalSaldo = parseFloat(totalSaldo.toFixed(2))
+}
+
+function openModal() {
+    modalOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+}
+
+// Function to close modal
+function closeModal() {
+    modalOverlay.style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
 }
