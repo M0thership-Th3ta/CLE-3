@@ -49,12 +49,14 @@ function listItems(){
 //Een functie die een item toevoegt aan de boodschappenlijst
 function addItems(){
     let input = document.querySelector("#boodschap")
-    let li = document.createElement("li")
-    li.textContent = input.value
-    htmlList.appendChild(li)
-    list.push(input.value)
-    saveList()
-    input.value = ""
+    if(input.value !== ""){
+        let li = document.createElement("li")
+        li.textContent = input.value
+        htmlList.appendChild(li)
+        list.push(input.value)
+        saveList()
+        input.value = ""
+    }
 }
 
 //Een functie die een item van de boodschappenlijst afstreept
