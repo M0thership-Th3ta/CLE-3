@@ -14,19 +14,20 @@ let diffrence = Number(localStorage.getItem("price"))
 let diffrenceCalc = 0
 
 function init() {
-    section = document.querySelector("#my-money")
-
     let backButton = document.querySelector("#backbutton")
     backButton.addEventListener("click", backButtonHandler)
+    section = document.querySelector("#my-money")
+    let button = document.querySelector("#button")
+    button.addEventListener("click", buttonHandler)
+
+
     getMoney()
     moneyCount()
     sliceData(myMoney, spendMoney)
-    let button = document.querySelector("#button")
     if (price > 0) {
         reverseMoney()
         sliceData(myMoney, spendMoney)
     }
-    button.addEventListener("click", buttonHandler)
     totalSaldo = totalSaldo - price
 }
 
@@ -93,16 +94,12 @@ function reverseMoney() {
     for (let value of myMoney.reverse()) {
         if (value >= price) {
             spendMoney.push(value)
-
-
             if (calculate < startPrice && value > startPrice && startPrice >= 0) {
                 section.innerText = ""
                 newArray.push(value)
                 sliceData(myMoneyDubeplicate, newArray)
                 myMoney = myMoneyDubeplicate
                 spendMoney = newArray
-
-
                 startPrice = startPrice - value
 
             }
