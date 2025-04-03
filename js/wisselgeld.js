@@ -28,7 +28,7 @@ function checkMaxInput() {
 
     geldSoorten.forEach(geld => {
         const input = document.getElementById(geld.id);
-        const plus = document.querySelector(`#${geld.id}-plus`);
+        const plus = document.querySelector('.plus multi');
         if (input) {
             if (huidigTotaal + geld.waarde > diffrence) {
                 input.disabled = true;
