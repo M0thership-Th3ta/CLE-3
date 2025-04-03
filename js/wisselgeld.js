@@ -115,7 +115,7 @@ function stopWisselgeldInPortemonnee() {
     toonPortemonnee();
     updateIndicators();
     alert('Wisselgeld is aan je portemonnee toegevoegd!');
-    window.location.href = "main.html";
+    window.location.href = "index.html";
 }
 
 // Reset de wisselgeld selectie
@@ -188,7 +188,7 @@ function setupEventListeners() {
 // Initialisatie
 document.addEventListener('DOMContentLoaded', () => {
     if (diffrence === 0) {
-        window.location.href = "main.html";
+        window.location.href = "index.html";
     }
 
     setupEventListeners();
