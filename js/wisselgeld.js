@@ -114,7 +114,6 @@ function stopWisselgeldInPortemonnee() {
     localStorage.removeItem('wisselgeld')
     toonPortemonnee();
     updateIndicators();
-
     alert('Wisselgeld is aan je portemonnee toegevoegd!');
     window.location.href = "main.html";
 }

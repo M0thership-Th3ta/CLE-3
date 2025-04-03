@@ -37,6 +37,7 @@ function buttonHandler(e) {
 function backButtonHandler(e) {
     localStorage.removeItem("wisselgeld")
     localStorage.removeItem("diffrence")
+    localStorage.removeItem("wisselgeldJSON")
 }
 
 //loopt van groot naar kleinste waarde zodat we het meeste al hebben besteed
