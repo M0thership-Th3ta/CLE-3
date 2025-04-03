@@ -135,7 +135,6 @@ form {
     align-content: center;
 }
 
-/* Modal overlay styles */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -148,7 +147,6 @@ form {
     z-index: 1000;
 }
 
-/* Modal content styles */
 .modal {
     position: fixed;
     font-size: 50px;
@@ -164,23 +162,19 @@ form {
     width: 70vw;
 }
 
-/* Close button styles */
 .close-btn {
     position: absolute;
     top: 10px;
     right: 10px;
     background-color: #ff0000;
-    /* Red background */
     border: none;
     font-size: 50px;
     cursor: pointer;
     color: white;
-    /* White X */
     padding: 30px 35px;
     margin: 20px;
     line-height: 1;
     border-radius: 30px;
-    /* Rounded corners */
     transition: background-color 0.3s;
 }
 
@@ -188,7 +182,6 @@ form {
     color: #333;
 }
 
-/* Modal content */
 .modal-content {
     text-align: center;
     padding: 10vh 0;
