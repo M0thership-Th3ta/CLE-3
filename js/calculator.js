@@ -3,17 +3,19 @@ let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || []
 let totalSaldo = Number(localStorage.getItem("saldo"))
 let price = Number(localStorage.getItem("price"))
 let startPrice = Number(localStorage.getItem("price"))
+let diffrencePrice = Number(localStorage.getItem("price"))
 let myMoney = [];
 let spendMoney = [];
 let section;
 let calculate = 0;
 let newArray = [];
 let myMoneyDubeplicate = [];
-let diffrence;
+let diffrence = Number(localStorage.getItem("price"))
+let diffrenceCalc = 0
 
 function init() {
     section = document.querySelector("#my-money")
-    diffrence = 0.00
+
     let backButton = document.querySelector("#backbutton")
     backButton.addEventListener("click", backButtonHandler)
     getMoney()
@@ -44,7 +46,8 @@ function moneyCount() {
             section.append(div);
             div.dataset.name = value;
             let image
-
+            diffrence = 0
+            diffrenceCalc = diffrenceCalc + value
 
             if (value >= 1) {
                 image = `./img/${value}.png`
@@ -74,7 +77,7 @@ function moneyCount() {
             div.append(p);
 
             if (price <= 0.00) {
-                console.log(value, "is nul")
+
                 return;
             }
         }
@@ -88,16 +91,22 @@ function reverseMoney() {
     for (let value of myMoney.reverse()) {
         if (value >= price) {
             spendMoney.push(value)
+
+
             if (calculate < startPrice && value > startPrice && startPrice >= 0) {
                 section.innerText = ""
                 newArray.push(value)
                 sliceData(myMoneyDubeplicate, newArray)
                 myMoney = myMoneyDubeplicate
                 spendMoney = newArray
+
+
                 startPrice = startPrice - value
-                diffrence = Number(localStorage.getItem("price"))
-                diffrence = value - diffrence
+
             }
+            diffrenceCalc = diffrenceCalc + value
+
+            diffrence = diffrenceCalc - diffrencePrice
 
             let div = document.createElement("div")
             section.append(div)
@@ -122,9 +131,7 @@ function reverseMoney() {
             p.innerText = `€${value.toFixed(2)}`
             p.classList.add("calcP")
             div.append(p)
-            price = Math.max(0, value - price).toFixed(2)
-
-            console.log(diffrence, "check")
+            price = price - value.toFixed(2)
 
 
             if (price <= 0.00) {
