@@ -39,6 +39,11 @@ nav a{
 }
 
 /* eind terug knop */
+h1 {
+    text-align: center;
+    font-size: 55px;
+    padding: 40px 80px 60px 80px ;
+}
 p {
     margin: 0;
 }
@@ -113,25 +118,28 @@ form {
 }
 
 .paper img {
-    height: 100px;
-    width: 170px;
+    height: 150px;
+    width: 255px;
 }
 
 .coin img {
-    height: 50px;
-    width: 50px;
+    height: 150px;
+    width: 150px;
 
 }
 
 .section-class {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
+    padding: 0 8vw;
+    max-height: 60vh;
+    overflow: scroll;
 }
 
 .paper, .coin {
     text-align: center;
-
     align-content: center;
 }
 
@@ -190,3 +198,26 @@ form {
 .modal-content h2{
     font-size: 50px;
 }
+
+.calcMain{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button{
+    display: inline-flex;
+    align-items: center;
+    height: 7vh;
+    width: 40vw;
+    justify-content: center;
+    font-size: 40px;
+    color: white;
+    background-color: dodgerblue;
+    border-radius: 15px;
+    text-decoration: none;
+    text-align: center;
+    position: absolute;
+    top: 83vh;
+}
+

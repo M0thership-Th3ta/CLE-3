@@ -45,7 +45,12 @@ nav a{
 h1 {
     text-align: center;
     font-size: 55px;
-    padding: 40px 80px 60px 80px ;
+    padding: 20px 60px 30px 80px ;
+}
+
+h2{
+    text-align: center;
+    font-size: 40px;
 }
 
 .form-container {
@@ -142,7 +147,6 @@ label{
     justify-content: center;
     align-items: center;
     gap: 10px;
-    padding: 30px 35px;
     background-color: indianred;
     color: white;
     border: none;
@@ -231,4 +235,14 @@ label{
 /* Modal content */
 .modal-content {
     margin-top: 20px;
+}
+
+.continue{
+    background-color: dodgerblue;
+}
+
+@media (min-width: 500px) {
+    .form-item{
+        height: 300px;
+    }
 }
