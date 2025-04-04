@@ -9,11 +9,13 @@ let portemonnee = JSON.parse(localStorage.getItem('portemonnee'))
 let myMoney = []
 let date;
 let d;
+let modelh2;
 
 function init() {
     getMoney()
 
     d = new Date()
+
     section = document.querySelector("#formSection")
     form = document.querySelector("#calculatorForm")
     money = document.querySelector("#to-pay")
@@ -26,10 +28,10 @@ function init() {
     form.addEventListener("submit", formHandler)
     console.log(totalSaldo)
 
-    //modal popup voor error
     const modalOverlay = document.getElementById('modalOverlay');
     const closeBtn = document.getElementById('closeBtn');
     closeBtn.addEventListener('click', closeModal);
+    modelh2 = document.querySelector("#modelh2")
 
     // Close modal when clicking outside
     modalOverlay.addEventListener('click', (e) => {
@@ -54,7 +56,12 @@ function formHandler(e) {
     let cash = parseFloat(money.value.replace(",", "."))
     if (!isNaN(cash) && cash !== "" && cash === Number(cash.toFixed(2))) {
         if (cash > totalSaldo) {
-            alert(`u heeft nog €${cash - parseInt(totalSaldo.toFixed(2))} nodig`)
+            modelh2.innerText = `
+            Je heb niet genoeg geld!
+            Je heb nog €${cash - parseInt(totalSaldo.toFixed(2))} nodig
+            `
+            openModal()
+            // alert(`u heeft nog €${cash - parseInt(totalSaldo.toFixed(2))} nodig`)
         } else {
             localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
             localStorage.setItem("price", cash)
@@ -66,10 +73,10 @@ function formHandler(e) {
 
     } else {
         console.log("error")
+        modelh2.innerText = "Voer een geldig bedrag in"
         openModal();
         money.value = ""
     }
-
 }
 
 function getMoney() {
@@ -90,7 +97,7 @@ function totalSaldoCalc() {
 
 function openModal() {
     modalOverlay.style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    document.body.style.overflow = 'hidden';
 }
 
 // Function to close modal
@@ -98,3 +105,4 @@ function closeModal() {
     modalOverlay.style.display = 'none';
     document.body.style.overflow = 'auto'; // Restore scrolling
 }
+
