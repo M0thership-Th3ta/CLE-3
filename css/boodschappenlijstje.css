@@ -5,7 +5,7 @@
 
 * {
     font-size: 42px;
-    font-family: "Segoe UI";
+    font-family: Segoe UI, Tahoma, Geneva, sans-serif;
     margin: 0;
     padding: 0;
 }
@@ -100,16 +100,21 @@ li {
 }
 
 #clear-button, #screen-reader-button {
-    padding: 20px;
     border-radius: 30px;
+    padding: 15px 25px;
 }
-
+#clear-button{
+    position: absolute;
+    bottom: 12%;
+    background-color: indianred;
+    width: 20vh;
+}
 .screen-reader-button-container {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+    position: absolute;
+    top: 60px;
+    right: 3vw;
     width: 256px;
-    height: 256px;
+    height: 6vh;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -118,8 +123,8 @@ li {
 
 .screen-reader-button {
     color: white;
-    background-color: dodgerblue;
-    height: 6vh;
+    background-color: darkslateblue;
+    height: 5vh;
     display: inline-flex;
     align-items: center;
 }
