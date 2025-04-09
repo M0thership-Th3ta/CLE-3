@@ -53,7 +53,8 @@ function formHandler(e) {
     error.innerText = ""
     date = `${d.getDate().toFixed(2)}-${d.getMonth().toFixed(2) + 1}-${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`
 
-    let cash = parseFloat(money.value.replace(",", "."))
+    const inputValue = money.value.replace(/\s/g, '');
+    let cash = parseFloat(inputValue.replace(",", "."))
     if (!isNaN(cash) && cash !== "" && cash === Number(cash.toFixed(2))) {
         if (cash > totalSaldo) {
             const difference = (cash - totalSaldo).toFixed(2);
