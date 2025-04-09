@@ -76,6 +76,40 @@ function verzamelInvoer() {
 
 // Update indicatoren
 function updateIndicators() {
+    // Update the total display
+    const totalDisplay = document.getElementById('total');
+    if (totalDisplay) {
+        const total = berekenSaldo();
+        totalDisplay.textContent = `€${total.toFixed(2)}`;
+    }
+
+    // Update the difference display
+    const differenceDisplay = document.getElementById('difference');
+    if (differenceDisplay) {
+        const difference = Number(localStorage.getItem("diffrence")) - berekenSaldo();
+        differenceDisplay.textContent = `€${difference.toFixed(2)}`;
+    }
+
+    // Update the h1 with the amount to get back
+    const h1 = document.querySelector('h1');
+    if (h1) {
+        const difference = Number(localStorage.getItem("diffrence")) - berekenSaldo();
+        h1.textContent = `Je krijgt €${difference.toFixed(2)} terug`;
+    }
+
+    // Update the confirm button state
+    const confirmButton = document.getElementById('confirmButton');
+    if (confirmButton) {
+        const difference = Number(localStorage.getItem("diffrence")) - berekenSaldo();
+        if (Math.abs(difference) < 0.01) {
+            confirmButton.disabled = false;
+            confirmButton.classList.remove('disabled');
+        } else {
+            confirmButton.disabled = true;
+            confirmButton.classList.add('disabled');
+        }
+    }
+
     geldSoorten.forEach(geld => {
         const indicator = document.getElementById(`${geld.id}-indicator`);
         if (indicator) {
@@ -161,7 +195,9 @@ function openModal() {
     const modalOverlay = document.getElementById('modalOverlay');
     const diffrenceSpan = document.getElementById('diffrence');
     if (modalOverlay && diffrenceSpan) {
-        diffrenceSpan.textContent = diffrence.toFixed(2);
+        const currentTotal = berekenSaldo();
+        const remainingDiff = Number(localStorage.getItem("diffrence")) - currentTotal;
+        diffrenceSpan.textContent = remainingDiff.toFixed(2);
         modalOverlay.style.display = 'flex';
     }
 }
@@ -387,12 +423,6 @@ function toonPortemonnee() {
     const saldoElement = document.getElementById('totaalSaldo');
     if (saldoElement) {
         saldoElement.textContent = berekenSaldo().toFixed(2);
-    }
-
-    // Update the change amount display in the h1
-    const h1Element = document.querySelector('h1');
-    if (h1Element) {
-        h1Element.textContent = `Je krijgt nog €${diffrence.toFixed(2)} terug`;
     }
 
     updateIndicators();
