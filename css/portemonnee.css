@@ -3,28 +3,32 @@
     --nav-button: #7070ff;
 }
 
-*{
-    padding:0;
-    margin:0;
+* {
+    padding: 0;
+    margin: 0;
     font-family: "Segoe UI";
 }
+
 /* terug knop */
-nav{
+nav {
     margin: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-h3{
+
+h3 {
     font-size: 40px;
     display: inline-flex;
     align-items: center;
 }
-h3 svg{
+
+h3 svg {
     color: dodgerblue;
     padding-left: 5px;
 }
+
 a {
     display: inline-flex;
     align-items: center;
@@ -33,22 +37,24 @@ a {
     justify-content: center;
     font-size: 40px;
 }
-nav a{
+
+nav a {
     color: white;
     background-color: dodgerblue;
     border-radius: 15px;
     text-decoration: none;
     text-align: center;
 }
+
 /* eind terug knop */
 
 h1 {
     text-align: center;
     font-size: 55px;
-    padding: 20px 60px 30px 80px ;
+    padding: 20px 60px 30px 80px;
 }
 
-h2{
+h2 {
     text-align: center;
     font-size: 40px;
 }
@@ -63,13 +69,13 @@ h2{
     align-items: center;
 }
 
-.billRow{
+.billRow {
     display: flex;
     flex-direction: row;
     gap: 50px;
 }
 
-.billRow .form-item{
+.billRow .form-item {
     width: 40vw;
     text-align: center;
 }
@@ -86,22 +92,23 @@ h2{
     background-color: #e8e8e8;
     height: 14vh;
 }
-.coinRow{
+
+.coinRow {
     display: flex;
     flex-direction: row;
     gap: 50px;
 }
 
-.coinRow .form-item img{
+.coinRow .form-item img {
     border-radius: 50%;
 }
 
-.coinRow .form-item{
+.coinRow .form-item {
     text-align: center;
     width: 25vw;
 }
 
-.multi{
+.multi {
     color: white;
     background-color: #7070ff;
     border: 2px solid black;
@@ -119,13 +126,16 @@ h2{
     gap: 10px;
     margin-top: 5px;
 }
-.container p{
+
+.container p {
     padding: 0 20px;
     font-size: 30px;
 }
-label{
+
+label {
     font-size: 30px;
 }
+
 .container button {
     height: 90px;
     width: 80px;
@@ -142,7 +152,7 @@ label{
 .submit {
     margin-top: 35px;
     height: 6vh;
-    width: 50vw;
+    width: 45vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -154,16 +164,19 @@ label{
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 40px;
+    text-decoration: none;
 }
 
 .submit a {
     text-decoration: none;
     color: white;
 }
-.submit svg{
+
+.submit svg {
     width: 24px;
     height: 24px;
 }
+
 .flex-zooi {
     display: flex;
     flex-direction: row;
@@ -203,7 +216,7 @@ label{
     width: 70vw;
 }
 
-.modal ul{
+.modal ul {
     padding-left: 60px;
     padding-top: 50px;
 }
@@ -237,12 +250,70 @@ label{
     margin-top: 20px;
 }
 
-.continue{
+.continue {
     background-color: dodgerblue;
 }
 
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+}
+
+.modal {
+    position: fixed;
+    font-size: 50px;
+    font-weight: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    width: 70vw;
+    height: 30vh;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+    color: white;
+    padding: 30px 35px;
+    margin: 20px;
+    line-height: 1;
+    border-radius: 30px;
+    transition: background-color 0.3s;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+.modal-content {
+    text-align: center;
+    padding: 10vh 0;
+}
+
+.modal-content h2 {
+    font-size: 50px;
+}
+
+
 @media (min-width: 500px) {
-    .form-item{
+    .form-item {
         height: 300px;
     }
 }

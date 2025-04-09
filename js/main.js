@@ -5,7 +5,7 @@ let error
 let section
 let item
 let totalSaldo = 0.00;
-let portemonnee = JSON.parse(localStorage.getItem('portemonnee'))
+let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
 let myMoney = []
 let date;
 let d;
@@ -56,12 +56,9 @@ function formHandler(e) {
     let cash = parseFloat(money.value.replace(",", "."))
     if (!isNaN(cash) && cash !== "" && cash === Number(cash.toFixed(2))) {
         if (cash > totalSaldo) {
-            modelh2.innerText = `
-            Je heb niet genoeg geld!
-            Je heb nog €${cash - parseInt(totalSaldo.toFixed(2))} nodig
-            `
+            const difference = (cash - totalSaldo).toFixed(2);
+            modelh2.innerText = `Je hebt niet genoeg geld! Je moet nog €${difference} hebben.`
             openModal()
-            // alert(`u heeft nog €${cash - parseInt(totalSaldo.toFixed(2))} nodig`)
         } else {
             localStorage.setItem("saldo", parseInt(totalSaldo).toFixed(2))
             localStorage.setItem("price", cash)

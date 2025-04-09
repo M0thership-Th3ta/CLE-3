@@ -2,22 +2,23 @@
     --error: red;
     --nav-button: #7070ff;
 }
-*{
-    padding:0;
-    margin:0;
+
+* {
+    padding: 0;
+    margin: 0;
     font-family: "Segoe UI";
     font-size: 36px;
 }
 
 /* terug knop */
-nav{
+nav {
     margin: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.mainNav{
+.mainNav {
     margin-bottom: 10vh;
 }
 
@@ -30,7 +31,7 @@ a {
     font-size: 40px;
 }
 
-nav a{
+nav a {
     color: white;
     background-color: dodgerblue;
     border-radius: 15px;
@@ -42,20 +43,21 @@ nav a{
 h1 {
     text-align: center;
     font-size: 55px;
-    padding: 40px 80px 60px 80px ;
+    padding: 40px 80px 60px 80px;
 }
+
 p {
     margin: 0;
 }
 
-.nav-style{
+.nav-style {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 40px;
 }
 
-.nav-text-style{
+.nav-text-style {
     font-size: 50px;
     font-weight: bold;
     display: flex;
@@ -65,7 +67,7 @@ p {
     padding-bottom: 30px;
 }
 
-.mainForm{
+.mainForm {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,18 +75,18 @@ p {
     margin-top: 17vh;
 }
 
-.mainForm .formItem{
+.mainForm .formItem {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.mainForm label{
+.mainForm label {
     font-size: 50px;
     font-weight: bold;
 }
 
-.mainForm input{
+.mainForm input {
     height: 60px;
     width: 60vw;
     font-size: 40px;
@@ -95,15 +97,16 @@ p {
     padding: 20px;
 }
 
-.mainForm .button{
+.mainForm .button {
     height: 8vh;
     background-color: dodgerblue;
-    border:none;
+    border: none;
     color: white;
     font-size: 43px;
     position: absolute;
     top: 83vh;
 }
+
 .error {
     color: var(--error);
 }
@@ -138,7 +141,8 @@ form {
     overflow: scroll;
 }
 
-.paper, .coin {
+.paper,
+.coin {
     text-align: center;
     align-content: center;
 }
@@ -195,17 +199,53 @@ form {
     padding: 10vh 0;
 }
 
-.modal-content h2{
+.modal-content h2 {
     font-size: 50px;
 }
 
-.calcMain{
+.calcMain {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.button{
+.continueButton {
+    background-color: dodgerblue;
+    color: white;
+    font-size: 40px;
+    border-radius: 15px;
+    height: 8vh;
+    width: 40vw;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-decoration: none;
+    position: absolute;
+    top: 83vh;
+
+}
+
+.confirmHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.confirmH1 {
+
+    position: absolute;
+    top: 37vh;
+    text-align: center;
+}
+
+.confirmMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button {
     display: inline-flex;
     align-items: center;
     height: 7vh;
@@ -221,3 +261,21 @@ form {
     top: 83vh;
 }
 
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.denomination-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+}

@@ -3,16 +3,16 @@ let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
 
 // Geldsoorten configuratie
 const geldSoorten = [
-    {waarde: 50, id: 'biljet50'},
-    {waarde: 20, id: 'biljet20'},
-    {waarde: 10, id: 'biljet10'},
-    {waarde: 5, id: 'biljet5'},
-    {waarde: 2, id: 'munt2'},
-    {waarde: 1, id: 'munt1'},
-    {waarde: 0.50, id: 'munt0.50'},
-    {waarde: 0.20, id: 'munt0.20'},
-    {waarde: 0.10, id: 'munt0.10'},
-    {waarde: 0.05, id: 'munt0.05'}
+    { waarde: 50, id: 'biljet50' },
+    { waarde: 20, id: 'biljet20' },
+    { waarde: 10, id: 'biljet10' },
+    { waarde: 5, id: 'biljet5' },
+    { waarde: 2, id: 'munt2' },
+    { waarde: 1, id: 'munt1' },
+    { waarde: 0.50, id: 'munt0.50' },
+    { waarde: 0.20, id: 'munt0.20' },
+    { waarde: 0.10, id: 'munt0.10' },
+    { waarde: 0.05, id: 'munt0.05' }
 ];
 
 // Bereken totaal saldo
@@ -92,7 +92,61 @@ function resetPortemonnee() {
     toonPortemonnee();
 }
 
-// Event listeners
+// Add these variables at the top of the file
+let incrementInterval = null;
+const INCREMENT_DELAY = 500; // Delay before starting auto-increment (1 second)
+const INCREMENT_SPEED = 100; // Speed of auto-increment in milliseconds
+
+// Add these functions before setupEventListeners
+function startAutoIncrement(button, input, increment) {
+    // Clear any existing interval
+    if (incrementInterval) {
+        clearInterval(incrementInterval);
+    }
+
+    // Start auto-increment after delay
+    let timeoutId = setTimeout(() => {
+        // Set wasLongPress when auto-increment starts
+        button.dataset.wasLongPress = 'true';
+        incrementInterval = setInterval(() => {
+            const currentValue = parseInt(input.value) || 0;
+            const newValue = currentValue + increment;
+            if (newValue >= 0) {
+                input.value = newValue;
+                voegToeAanPortemonnee();
+            }
+        }, INCREMENT_SPEED);
+    }, INCREMENT_DELAY);
+
+    // Store the timeout ID to clear it if mouseup/touchend happens before delay
+    button.dataset.timeoutId = timeoutId;
+}
+
+function stopAutoIncrement(button) {
+    // Clear the timeout if it exists
+    if (button.dataset.timeoutId) {
+        clearTimeout(parseInt(button.dataset.timeoutId));
+        delete button.dataset.timeoutId;
+    }
+    // Clear the interval
+    if (incrementInterval) {
+        clearInterval(incrementInterval);
+        incrementInterval = null;
+    }
+}
+
+function handleIncrement(button, input, increment) {
+    if (button.dataset.wasLongPress !== 'true') {
+        const currentValue = parseInt(input.value) || 0;
+        const newValue = currentValue + increment;
+        if (newValue >= 0) {
+            input.value = newValue;
+            voegToeAanPortemonnee();
+        }
+    }
+}
+
+// Modify the setupEventListeners function
 function setupEventListeners() {
     document.querySelectorAll('.form-item').forEach(item => {
         const input = item.querySelector('input');
@@ -100,17 +154,82 @@ function setupEventListeners() {
         const minus = item.querySelector('.minus');
 
         if (plus && input) {
-            plus.addEventListener('click', () => {
-                input.value = (parseInt(input.value) || 0) + 1;
-                voegToeAanPortemonnee();
+            // Mouse events for desktop
+            plus.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                plus.dataset.wasLongPress = 'false';
+                plus.dataset.pressStartTime = Date.now();
+                startAutoIncrement(plus, input, 1);
+            });
+
+            plus.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(plus);
+                handleIncrement(plus, input, 1);
+            });
+
+            plus.addEventListener('mouseleave', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(plus);
+            });
+
+            // Touch events for mobile
+            plus.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                plus.dataset.wasLongPress = 'false';
+                plus.dataset.pressStartTime = Date.now();
+                startAutoIncrement(plus, input, 1);
+            });
+
+            plus.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(plus);
+                handleIncrement(plus, input, 1);
+            });
+
+            plus.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(plus);
             });
         }
 
         if (minus && input) {
-            minus.addEventListener('click', () => {
-                const waarde = parseInt(input.value) || 0;
-                if (waarde > 0) input.value = waarde - 1;
-                voegToeAanPortemonnee();
+            // Mouse events for desktop
+            minus.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                minus.dataset.wasLongPress = 'false';
+                minus.dataset.pressStartTime = Date.now();
+                startAutoIncrement(minus, input, -1);
+            });
+
+            minus.addEventListener('mouseup', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(minus);
+                handleIncrement(minus, input, -1);
+            });
+
+            minus.addEventListener('mouseleave', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(minus);
+            });
+
+            // Touch events for mobile
+            minus.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                minus.dataset.wasLongPress = 'false';
+                minus.dataset.pressStartTime = Date.now();
+                startAutoIncrement(minus, input, -1);
+            });
+
+            minus.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(minus);
+                handleIncrement(minus, input, -1);
+            });
+
+            minus.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                stopAutoIncrement(minus);
             });
         }
     });
@@ -120,6 +239,7 @@ function setupEventListeners() {
         resetBtn.addEventListener('click', resetPortemonnee);
     }
 }
+
 function openModal() {
     modalOverlay.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open

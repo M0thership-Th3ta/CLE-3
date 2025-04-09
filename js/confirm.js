@@ -1,5 +1,19 @@
 window.addEventListener("load", init)
 
+// Define denominations for money values
+const DENOMINATIONS = {
+    bill50: 5000,
+    bill20: 2000,
+    bill10: 1000,
+    bill5: 500,
+    coin2: 200,
+    coin1: 100,
+    coin50c: 50,
+    coin20c: 20,
+    coin10c: 10,
+    coin5c: 5
+};
+
 let wisselGeld = JSON.parse(localStorage.getItem('wisselgeldJSON'));
 let product = localStorage.getItem('product') || " ";
 let myMoney = []
@@ -8,83 +22,166 @@ let date = localStorage.getItem("date-time")
 let price = localStorage.getItem("price")
 
 function init() {
+    const backButton = document.querySelector("#button")
+    backButton.addEventListener("click", backButtonHandler)
     section = document.querySelector("#cash-back")
     button = document.querySelector("#button")
     button.addEventListener("click", goBackToMain)
     console.log(wisselGeld)
     loopMoney()
-    goMoney()
+    triggerConfetti()
 
+    // Update the message last
+    let cashBackElement = document.querySelector('.cash-back');
+    if (cashBackElement) {
+        let diffrence = Number(localStorage.getItem('diffrence')) || 0;
+        if (diffrence > 0) {
+            cashBackElement.textContent = `Je krijgt €${diffrence.toFixed(2)} terug`;
+        } else {
+            cashBackElement.textContent = "Je betaling is gelukt, je krijgt geen wisselgeld terug.";
+        }
+    }
 }
-
 
 function loopMoney() {
-    for (let contains of wisselGeld) {
-        for (let i = 0; i < contains.aantal; i++) {
-            myMoney.push(contains.waarde)
-
-        }
+    if (!wisselGeld) {
+        wisselGeld = [];
     }
-}
-
-function goMoney() {
-    for (let value of myMoney) {
-        let div = document.createElement("div")
-        section.append(div)
-        div.dataset.name = value
-        let image
-
-
-        if (value >= 1) {
-            image = `./img/${value}.png`
-        } else if (value < 1) {
-            image = `./img/${value.toFixed(2)}.png`
-        } else {
-            console.log("img error")
-        }
-
-        if (value > 2) {
-            div.classList.add("paper")
-        } else if (value <= 2) {
-            div.classList.add("coin")
-        }
-
-        let img = document.createElement("img")
-
-        img.src = image
-        div.append(img)
-
-        let p = document.createElement("h3");
-        p.classList.add("calcP")
-        p.innerText = `€${value.toFixed(2)}`
-        div.append(p);
-
-    }
+    wisselGeld.forEach(money => {
+        myMoney.push(money)
+    })
 }
 
 function goBackToMain() {
-    pushProduct()
+    // Update wallet with payment and change
+    let wisselgeldJSON = JSON.parse(localStorage.getItem('wisselgeldJSON')) || [];
+    let diffrence = Number(localStorage.getItem('diffrence')) || 0;
+    let paymentInfo = JSON.parse(localStorage.getItem('paymentInfo')) || {};
 
-    localStorage.removeItem("product")
-    localStorage.removeItem("diffrence")
-    localStorage.removeItem("wisselgeldJSON")
-    localStorage.removeItem("price")
-}
+    // Get current wallet data
+    let portemonnee = JSON.parse(localStorage.getItem('portemonnee')) || [];
+    let totalSaldo = Number(localStorage.getItem('saldo')) || 0;
 
-function pushProduct() {
-    // Haal de bestaande producten op uit localStorage of maak een lege array
+    // Always update wallet with payment and change
+    if (paymentInfo.usedMoney && paymentInfo.usedMoney.length > 0) {
+        // Remove used money from wallet
+        paymentInfo.usedMoney.forEach(item => {
+            const index = portemonnee.findIndex(walletItem => walletItem.waarde === item.waarde);
+            if (index !== -1) {
+                // Update the aantal (count) of the wallet item
+                portemonnee[index].aantal -= item.aantal;
+                // Remove the item if aantal reaches 0
+                if (portemonnee[index].aantal <= 0) {
+                    portemonnee.splice(index, 1);
+                }
+            }
+        });
+
+        // Add change to wallet if any
+        if (wisselgeldJSON && wisselgeldJSON.length > 0) {
+            wisselgeldJSON.forEach(item => {
+                portemonnee.push(item);
+            });
+        }
+
+        // Update total balance
+        totalSaldo = totalSaldo - paymentInfo.totalPaid + diffrence;
+
+        // Update localStorage
+        localStorage.setItem("saldo", totalSaldo.toFixed(2));
+        localStorage.setItem("portemonnee", JSON.stringify(portemonnee));
+    }
+
+    // Create payment object with current date and time
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const dateTime = `${day}-${month}-${year} ${hours}:${minutes}`;
+
+    // Get existing products or create empty array
     let products = JSON.parse(localStorage.getItem('products')) || [];
 
-// Maak een nieuw productobject
-    let newProduct = {
-        name: `${product}`,
-        price: `${price}`,
-        date: `${date}`
+    // Create new payment object with placeholder for empty product name
+    const newPayment = {
+        name: product.trim() === "" ? "Niet opgegeven" : product,
+        price: price,
+        date: dateTime
     };
 
-// Voeg het nieuwe product toe aan de array
-    products.push(newProduct);
+    // Add new payment to products array
+    products.push(newPayment);
 
-// Sla de bijgewerkte array op in localStorage
-    localStorage.setItem("products", JSON.stringify(products));
+    // Store updated products array
+    localStorage.setItem('products', JSON.stringify(products));
+
+    // Store transaction details
+    let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+    const transaction = {
+        product: newPayment.name,
+        price: newPayment.price,
+        date: newPayment.date,
+        paidWith: paymentInfo.usedMoney || [],
+        change: wisselgeldJSON || []
+    };
+    transactions.push(transaction);
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+
+    // Clear temporary data
+    localStorage.removeItem("product");
+    localStorage.removeItem("diffrence");
+    localStorage.removeItem("wisselgeldJSON");
+    localStorage.removeItem("price");
+    localStorage.removeItem("paymentInfo");
+
+    // Redirect to main page
+    window.location.href = "index.html";
+}
+
+function backButtonHandler(e) {
+    e.preventDefault()
+    window.location.href = "./index.html"
+}
+
+function triggerConfetti() {
+    // Fire multiple confetti bursts
+    const duration = 3000;
+    const animationEnd = Date.now() + duration;
+    const defaults = {
+        startVelocity: 30,
+        spread: 360,
+        ticks: 60,
+        zIndex: 0,
+        scalar: 1.5, // Increase particle size
+        shapes: ['star', 'circle'], // Add some variety to the shapes
+        colors: ['#FFD700', '#FFA500', '#FF69B4', '#87CEEB', '#98FB98'] // Add some color variety
+    };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    const interval = setInterval(() => {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        const particleCount = 100 * (timeLeft / duration);
+
+        // Fire confetti from multiple angles
+        confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        });
+        confetti({
+            ...defaults,
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        });
+    }, 250);
 }
