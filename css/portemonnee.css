@@ -311,19 +311,6 @@ label {
     font-size: 50px;
 }
 
-
-@media (min-width: 500px) {
-    .form-item {
-        height: 300px;
-    }
-}
-
-.wisselgeldInfo {
-    font-size: 50px;
-    text-align: center;
-    font-weight: bold;
-}
-
 .screen-reader-button-container {
     position: fixed;
     bottom: 10px;
@@ -342,4 +329,17 @@ label {
     height: 6vh;
     display: inline-flex;
     align-items: center;
+}
+
+
+@media (min-width: 500px) {
+    .form-item {
+        height: 300px;
+    }
+}
+
+.wisselgeldInfo {
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
 }
